@@ -13,10 +13,50 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/
 */
 
+#include "pitches.h"
+
 void setup () {
+
+    // play startup jingle
+    playStartSound();
 
 }
 
+
 void loop () {
+
+}
+
+
+void playStartSound() {
+
+    tone(13, NOTE_C4);
+    delay(100);
+    noTone(13);
+    delay(100);
+    tone(13, NOTE_C4);
+    delay(100);
+    tone(13, NOTE_E4);
+    delay(200);
+    tone(13, NOTE_G4);
+    delay(200);
+    noTone(13);
+
+}
+
+
+void playStopSound() {
+
+    tone(13, NOTE_G4);
+    delay(100);
+    noTone(13);
+    delay(100);
+    tone(13, NOTE_G4);
+    delay(100);
+    tone(13, NOTE_E4);
+    delay(200);
+    tone(13, NOTE_C4);
+    delay(200);
+    noTone(13);
 
 }
