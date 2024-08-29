@@ -13,53 +13,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/
 */
 
-#include "pitches.h"
+#include "Speaker.h"
 
 // global variable definitions
-const int SpeakerPin = 13;
+Speaker speaker(13);
 
 void setup () {
 
     // play startup jingle
-    playStartSound();
+    speaker.playStartSound();
 
 }
 
 
 void loop () {
-
-}
-
-
-void playStartSound() {
-
-    tone(SpeakerPin, NOTE_C4);
-    delay(100);
-    noTone(SpeakerPin);
-    delay(100);
-    tone(SpeakerPin, NOTE_C4);
-    delay(100);
-    tone(SpeakerPin, NOTE_E4);
-    delay(200);
-    tone(SpeakerPin, NOTE_G4);
-    delay(200);
-    noTone(SpeakerPin);
-
-}
-
-
-void playStopSound() {
-
-    tone(SpeakerPin, NOTE_G4);
-    delay(100);
-    noTone(SpeakerPin);
-    delay(100);
-    tone(SpeakerPin, NOTE_G4);
-    delay(100);
-    tone(SpeakerPin, NOTE_E4);
-    delay(200);
-    tone(SpeakerPin, NOTE_C4);
-    delay(200);
-    noTone(SpeakerPin);
 
 }
