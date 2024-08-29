@@ -8,6 +8,7 @@ class Speaker {
         Speaker(int pin);
         void playStartSound();
         void playStopSound();
+        void playHitSound();
     private:
         int _pin;
 };
