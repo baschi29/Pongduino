@@ -2,9 +2,11 @@
 #include "Speaker.h"
 #include "Pitches.h"
 
+
 Speaker::Speaker(int pin) {
     _pin = pin;
 }
+
 
 void Speaker::playStartSound() {
 
