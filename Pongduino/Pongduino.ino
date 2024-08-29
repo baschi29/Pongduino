@@ -15,6 +15,9 @@
 
 #include "pitches.h"
 
+// global variable definitions
+const int SpeakerPin = 13;
+
 void setup () {
 
     // play startup jingle
@@ -30,33 +33,33 @@ void loop () {
 
 void playStartSound() {
 
-    tone(13, NOTE_C4);
+    tone(SpeakerPin, NOTE_C4);
     delay(100);
-    noTone(13);
+    noTone(SpeakerPin);
     delay(100);
-    tone(13, NOTE_C4);
+    tone(SpeakerPin, NOTE_C4);
     delay(100);
-    tone(13, NOTE_E4);
+    tone(SpeakerPin, NOTE_E4);
     delay(200);
-    tone(13, NOTE_G4);
+    tone(SpeakerPin, NOTE_G4);
     delay(200);
-    noTone(13);
+    noTone(SpeakerPin);
 
 }
 
 
 void playStopSound() {
 
-    tone(13, NOTE_G4);
+    tone(SpeakerPin, NOTE_G4);
     delay(100);
-    noTone(13);
+    noTone(SpeakerPin);
     delay(100);
-    tone(13, NOTE_G4);
+    tone(SpeakerPin, NOTE_G4);
     delay(100);
-    tone(13, NOTE_E4);
+    tone(SpeakerPin, NOTE_E4);
     delay(200);
-    tone(13, NOTE_C4);
+    tone(SpeakerPin, NOTE_C4);
     delay(200);
-    noTone(13);
+    noTone(SpeakerPin);
 
 }
