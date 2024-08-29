@@ -43,9 +43,7 @@ void Speaker::playStopSound() {
 void Speaker::playHitSound() {
 
     noTone(_pin);
-    delay(100);
-    tone(_pin, NOTE_C2);
-    delay(200);
-    noTone(_pin);
+    delay(10);
+    tone(_pin, NOTE_C2, 200);
 
 }
