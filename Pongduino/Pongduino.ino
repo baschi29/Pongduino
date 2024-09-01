@@ -15,18 +15,29 @@
 
 // include for local files
 #include "Speaker.h"
+#include "Display.h"
 
 // global variable definitions
 Speaker speaker(13);
+Display display;
 
 void setup () {
 
+    // Debugging
+    Serial.begin(115200);
+    while (!Serial);
+
+    // init Display
+    display.begin();
+
     // play startup jingle
-    speaker.playStartSound();
+    speaker.playStartSound(); 
 
 }
 
 
 void loop () {
+
+    display.writeHelloWorld();
 
 }
