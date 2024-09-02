@@ -16,10 +16,14 @@
 // include for local files
 #include "Speaker.h"
 #include "Display.h"
+#include "DistanceSensor.h"
 
-// global variable definitions
+// global variable definitions and Pin assignment
 Speaker speaker(13);
 Display display;
+DistanceSensor leftDistanceSensor(3,  2);
+DistanceSensor rightDistanceSensor(5, 4);
+
 
 void setup () {
 
@@ -39,5 +43,7 @@ void setup () {
 void loop () {
 
     display.writeHelloWorld();
+    leftDistanceSensor.measure();
+    delay(1000);
 
 }
