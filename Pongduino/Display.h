@@ -5,11 +5,14 @@
 #include <U8g2lib.h>
 
 class Display {
+
     public:
         Display();
         void writeHelloWorld();
         void begin();
+        
     private:
+        
         
 };
 
