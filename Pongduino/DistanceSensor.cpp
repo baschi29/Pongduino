@@ -22,7 +22,7 @@ float DistanceSensor::measure() {
     unsigned long now = millis();
 
     // according to the datasheet measurement cycles should be over 60ms
-    if ((now < _lastMeasurementTime) or (now - _lastMeasurementTime < 60)) {
+    if ((unsigned long)(now - _lastMeasurementTime) < 60) { // this should work even when millis overflows according to https://stackoverflow.com/a/15030332
 
         return _lastMeasurementValue;
 
