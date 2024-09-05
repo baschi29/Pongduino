@@ -20,7 +20,7 @@
 #include "Controller.h"
 
 // Pin assignment in controller: speaker, leftdstrigger, leftdsecho, rightdstrigger, rightdsecho
-Controller controller(13, 3, 2, 5, 4);
+Controller controller;
 
 
 void setup () {
@@ -29,7 +29,9 @@ void setup () {
     Serial.begin(115200);
     while (!Serial);
 
-    controller.startup(); 
+    Serial.println("Juchuuu");
+
+    controller.startup(13, 3, 2, 5, 4); 
 
 }
 

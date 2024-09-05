@@ -2,7 +2,32 @@
 #include "Controller.h"
 
 
-Controller::Controller(int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin) {
+Controller::Controller() {
+
+    // Game State
+    _gameState = {0, 0, true};
+
+}
+
+
+Controller::~Controller() {
+
+    delete _speaker;
+    delete _leftDistanceSensor;
+    delete _rightDistanceSensor;
+    delete _display;
+    delete _ball;
+    delete _leftPaddle;
+    delete _rightPaddle;
+    delete _topBorder;
+    delete _botBorder;
+    delete _leftDeadzone;
+    delete _rightDeadzone;
+
+}
+
+
+void Controller::startup(int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin) {
 
     // allocated memory is freed in Destructor
 
@@ -43,31 +68,7 @@ Controller::Controller(int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, 
     coordinatePlaceholder = {128, 0};
     _rightDeadzone = new Deadzone(coordinatePlaceholder, dimensionPlaceholder);
 
-    // Game State
-    _gameState = {0, 0, true};
-
-}
-
-
-Controller::~Controller() {
-
-    delete _speaker;
-    delete _leftDistanceSensor;
-    delete _rightDistanceSensor;
-    delete _display;
-    delete _ball;
-    delete _leftPaddle;
-    delete _rightPaddle;
-    delete _topBorder;
-    delete _botBorder;
-    delete _leftDeadzone;
-    delete _rightDeadzone;
-
-}
-
-
-void Controller::startup() {
-
+    // Greetings
     _display->begin();
     _speaker->playStartSound();
 

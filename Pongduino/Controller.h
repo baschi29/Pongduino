@@ -10,10 +10,10 @@
 class Controller {
 
     public:
-        Controller(int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin);
+        Controller();
         ~Controller(); // Destructor to free memory allocated in constructor
         void tick();
-        void startup();
+        void startup(int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin);
 
     private:
         GameState _gameState;
