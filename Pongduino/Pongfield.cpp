@@ -163,8 +163,19 @@ bool Ball::handleCollision(Paddle paddle) {
 
     if (this->isColliding(paddle)) {
 
+        if (sgn(this->getMovementDirection().x > 0)) { //moves to the right -> position left from paddle
+
+            this->setCoordinates(paddle.getMinOccupied().x - this->getDimension().x, this->getCoordinates().y);
+
+        }
+        else { // moves to the left -> position right from paddle
+
+            this->setCoordinates(paddle.getMaxOccupied().x + 1, this->getCoordinates().y);
+
+        }
+
+        // set new movement direction: reflection on paddle
         this->setMovementDirection(-(this->getMovementDirection().x), this->getMovementDirection().y);
-        this->setCoordinates(this->getCoordinates().x - sgn(this->getMovementDirection().x), this->getCoordinates().y);
 
         return true;
 
