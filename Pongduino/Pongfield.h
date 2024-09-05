@@ -7,6 +7,8 @@
 // forward declarations
 class Ball;
 class Paddle;
+class Border;
+class Deadzone;
 
 
 struct Tuple {
@@ -59,9 +61,12 @@ class MovableObject : public PongObject {
     protected:
         void setMovementDirection(float x, float y);
         void setCoordinates(float newX, float newY);
+        unsigned long getLastMovementTime();
+        double getMovementAngle();
 
     private:
-        Tuple _movementDirection; // gets normalized by setMovementDirection
+        Tuple _movementDirection; // gets normalized by setMovementDirection (vector)
+        double _movementAngle; // in Radian
         unsigned long _lastMovementTime;
 
 };

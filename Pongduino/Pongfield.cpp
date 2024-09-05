@@ -139,6 +139,7 @@ void MovableObject::setMovementDirection(float x, float y) {
     // normalize and set
     float length = sqrt(x * x + y * y);
     _movementDirection = {x / length, y / length};
+    _movementAngle = atan2((double)_movementDirection.y, (double)_movementDirection.x);
 
 }
 
@@ -146,6 +147,20 @@ void MovableObject::setMovementDirection(float x, float y) {
 Tuple MovableObject::getMovementDirection() {
 
     return _movementDirection;
+
+}
+
+
+unsigned long MovableObject::getLastMovementTime() {
+
+    return _lastMovementTime;
+
+}
+
+
+double MovableObject::getMovementAngle() {
+
+    return _movementAngle;
 
 }
 
@@ -158,10 +173,14 @@ Ball::Ball(Tuple coordinates, Tuple dimension, float velocity) : MovableObject(c
 }
 
 
-void Ball::move() { // BIG TODO: millis!!!
+void Ball::move() { // todo: check use of sin, cos and atan2
 
-    float newX = this->getCoordinates().x + _velocity * this->getMovementDirection().x;
-    float newY = this->getCoordinates().y + _velocity * this->getMovementDirection().y;
+    unsigned long now = millis();
+
+    float overallMovement = _velocity * (float)(now - this->getLastMovementTime()) / 1000; //velocity in px/s, time in ms
+
+    float newX = this->getCoordinates().x + overallMovement * cos(this->getMovementAngle());
+    float newY = this->getCoordinates().y + overallMovement * sin(this->getMovementAngle());
 
     this->setCoordinates(newX, newY);
 
