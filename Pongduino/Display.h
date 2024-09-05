@@ -1,5 +1,5 @@
 #ifndef Display_h
-#define Speaker_h
+#define Display_h
 
 #include "Arduino.h"
 #include <U8g2lib.h>
