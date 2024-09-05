@@ -145,6 +145,7 @@ Tuple MovableObject::getMovementDirection() {
 Ball::Ball(Tuple coordinates, Tuple dimension, float velocity) : MovableObject(coordinates, dimension) {
 
     _velocity = velocity;
+    _startCoordinates = coordinates;
 
 }
 
@@ -159,16 +160,23 @@ void Ball::move() {
 }
 
 
+void Ball::reset() {
+
+    this->setCoordinates(_startCoordinates.x, _startCoordinates.y);
+
+}
+
+
 bool Ball::handleCollision(Paddle paddle) {
 
     if (this->isColliding(paddle)) {
 
-        if (sgn(this->getMovementDirection().x > 0)) { //moves to the right -> position left from paddle
+        if (sgn(this->getMovementDirection().x > 0)) { //moved to the right -> position left from paddle
 
             this->setCoordinates(paddle.getMinOccupied().x - this->getDimension().x, this->getCoordinates().y);
 
         }
-        else { // moves to the left -> position right from paddle
+        else { // moved to the left -> position right from paddle
 
             this->setCoordinates(paddle.getMaxOccupied().x + 1, this->getCoordinates().y);
 
@@ -187,3 +195,65 @@ bool Ball::handleCollision(Paddle paddle) {
     }
 
 }
+
+
+bool Ball::handleCollision(Border border) { // for now borders are always horizontal
+
+    if (this->isColliding(border)) {
+
+        if (sgn(this->getMovementDirection().y > 0)) { //moved to the bottom -> position top of border
+
+            this->setCoordinates(this->getCoordinates().x, border.getMinOccupied().y - this->getDimension().y);
+
+        }
+        else { // moved to the top -> position bottom of border
+
+            this->setCoordinates( this->getCoordinates().x, border.getMaxOccupied().y + 1);
+
+        }
+
+        // set new movement direction: reflection on border
+        this->setMovementDirection(this->getMovementDirection().x, -(this->getMovementDirection().y));
+
+        return true;
+
+    }
+    else {
+
+        return false;
+
+    }
+
+}
+
+
+bool Ball::handleCollision(Deadzone deadzone) {
+
+    return this->isColliding(deadzone);
+
+}
+
+
+Paddle::Paddle(Tuple coordinates, Tuple dimension, float maxY, float minY) : MovableObject(coordinates, dimension) {
+
+    _maxY = maxY;
+    _minY = minY;
+
+}
+
+
+void Paddle::setPosition(float newY) {
+
+    //respect max&min
+    newY = min(_maxY, max(_minY, newY));
+
+    this->setMovementDirection(0, newY - this->getCoordinates().y);
+    this->setCoordinates(this->getCoordinates().x, newY);
+
+}
+
+
+Border::Border(Tuple coordinates, Tuple dimension) : PongObject(coordinates, dimension) {}
+
+
+Deadzone::Deadzone(Tuple coordinates, Tuple dimension) : PongObject(coordinates, dimension) {}

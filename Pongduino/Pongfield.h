@@ -70,10 +70,14 @@ class Ball : public MovableObject {
     public:
         Ball(Tuple coordinates, Tuple dimension, float velocity); //velocity should be in px/s,
         void move();
-        bool handleCollision(Paddle paddle); // returns true if collision was detected, for more: overload
+        void reset();
+        bool handleCollision(Paddle paddle); // returns true if collision was detected
+        bool handleCollision(Border border);
+        bool handleCollision(Deadzone deadzone);
 
     private:
         float _velocity;
+        Tuple _startCoordinates;
 
 };
 
@@ -81,11 +85,30 @@ class Ball : public MovableObject {
 class Paddle : public MovableObject {
 
     public:
-        Paddle(Tuple coordinate, Tuple dimension);
-        void setPosition(float y); //sets y Position of Peddle
+        Paddle(Tuple coordinates, Tuple dimension, float maxY, float minY);
+        void setPosition(float newY); //sets y Position of Peddle
 
     private:
+        float _maxY;
+        float _minY;
         
 };
+
+
+class Border : public PongObject {
+
+    public:
+        Border(Tuple coordinates, Tuple dimension);
+
+};
+
+
+class Deadzone : public PongObject {
+
+    public:
+        Deadzone(Tuple coordinates, Tuple dimension);
+
+};
+
 
 #endif
