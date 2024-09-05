@@ -17,12 +17,10 @@
 #include "Speaker.h"
 #include "Display.h"
 #include "DistanceSensor.h"
+#include "Controller.h"
 
-// global variable definitions and Pin assignment
-Speaker speaker(13);
-Display display;
-DistanceSensor leftDistanceSensor(3,  2);
-DistanceSensor rightDistanceSensor(5, 4);
+// Pin assignment in controller: speaker, leftdstrigger, leftdsecho, rightdstrigger, rightdsecho
+Controller controller(13, 3, 2, 5, 4);
 
 
 void setup () {
@@ -31,19 +29,13 @@ void setup () {
     Serial.begin(115200);
     while (!Serial);
 
-    // init Display
-    display.begin();
-
-    // play startup jingle
-    speaker.playStartSound(); 
+    controller.startup(); 
 
 }
 
 
 void loop () {
 
-    display.writeHelloWorld();
-    leftDistanceSensor.measure();
-    delay(1000);
+    controller.tick();
 
 }
