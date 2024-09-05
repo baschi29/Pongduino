@@ -126,6 +126,14 @@ MovableObject::MovableObject(Tuple coordinates, Tuple dimension) : PongObject(co
 }
 
 
+void MovableObject::setCoordinates(float newX, float newY) {
+
+    PongObject::setCoordinates(newX, newY);
+    _lastMovementTime = millis();
+
+}
+
+
 void MovableObject::setMovementDirection(float x, float y) {
 
     // normalize and set
@@ -150,7 +158,7 @@ Ball::Ball(Tuple coordinates, Tuple dimension, float velocity) : MovableObject(c
 }
 
 
-void Ball::move() {
+void Ball::move() { // BIG TODO: millis!!!
 
     float newX = this->getCoordinates().x + _velocity * this->getMovementDirection().x;
     float newY = this->getCoordinates().y + _velocity * this->getMovementDirection().y;

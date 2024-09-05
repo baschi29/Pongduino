@@ -58,9 +58,11 @@ class MovableObject : public PongObject {
 
     protected:
         void setMovementDirection(float x, float y);
+        void setCoordinates(float newX, float newY);
 
     private:
         Tuple _movementDirection; // gets normalized by setMovementDirection
+        unsigned long _lastMovementTime;
 
 };
 
