@@ -2,7 +2,7 @@
 Pongduino
 </h1>
 
-Yet another Arduino Pong game using distance sensors as controllers. Build and programmed as part of an university class, summer semester 2024.
+Yet another Arduino Pong game using distance sensors as controllers. Build and programmed as part of an university class in the summer semester 2024.
 
 ## Hardware
 
