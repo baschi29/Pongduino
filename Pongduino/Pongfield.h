@@ -62,11 +62,9 @@ class MovableObject : public PongObject {
         void setMovementDirection(float x, float y);
         void setCoordinates(float newX, float newY);
         unsigned long getLastMovementTime();
-        double getMovementAngle();
 
     private:
         Tuple _movementDirection; // gets normalized by setMovementDirection (vector)
-        double _movementAngle; // in Radian
         unsigned long _lastMovementTime;
 
 };
