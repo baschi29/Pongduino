@@ -31,7 +31,7 @@ struct GameState {
 class PongObject {
 
     public:
-        PongObject(Tuple coordinates, Tuple dimension); // everything is a rectangle, coordinates mark top left point
+        PongObject(float x, float y, float x_dim, float y_dim); // everything is a rectangle, coordinates mark top left point
         bool isColliding(PongObject otherObject);
         Tuple getMaxOccupied();
         Tuple getMinOccupied();
@@ -44,6 +44,8 @@ class PongObject {
     private:
         bool isXColliding(PongObject otherObject);
         bool isYColliding(PongObject otherObject);
+        void setOccupied(); // x,y top left
+        void setDimension(float x, float y);
         Tuple _coordinates;
         Tuple _dimension;
         Tuple _maxOccupied;
@@ -55,7 +57,7 @@ class PongObject {
 class MovableObject : public PongObject {
 
     public:
-        MovableObject(Tuple coordinates, Tuple dimension);
+        MovableObject(float x, float y, float x_dim, float y_dim);
         Tuple getMovementDirection();
 
     protected:
@@ -73,7 +75,7 @@ class MovableObject : public PongObject {
 class Ball : public MovableObject {
 
     public:
-        Ball(Tuple coordinates, Tuple dimension, float velocity); //velocity should be in px/s,
+        Ball(float x, float y, float x_dim, float y_dim, float velocity); //velocity should be in px/s,
         void move();
         void reset();
         bool handleCollision(Paddle paddle); // returns true if collision was detected
@@ -90,7 +92,7 @@ class Ball : public MovableObject {
 class Paddle : public MovableObject {
 
     public:
-        Paddle(Tuple coordinates, Tuple dimension, float maxY, float minY);
+        Paddle(float x, float y, float x_dim, float y_dim, float maxY, float minY);
         void setPosition(float newY); //sets y Position of Peddle
 
     private:
@@ -103,7 +105,7 @@ class Paddle : public MovableObject {
 class Border : public PongObject {
 
     public:
-        Border(Tuple coordinates, Tuple dimension);
+        Border(float x, float y, float x_dim, float y_dim);
 
 };
 
@@ -111,7 +113,7 @@ class Border : public PongObject {
 class Deadzone : public PongObject {
 
     public:
-        Deadzone(Tuple coordinates, Tuple dimension);
+        Deadzone(float x, float y, float x_dim, float y_dim);
 
 };
 

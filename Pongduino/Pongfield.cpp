@@ -8,12 +8,28 @@ template <typename T> int sgn(T val) {
 }
 
 
-PongObject::PongObject(Tuple coordinates, Tuple dimension) {
+PongObject::PongObject(float x, float y, float x_dim, float y_dim) {
 
-    _coordinates = coordinates;
-    _dimension = dimension;
-    _maxOccupied = { coordinates.x + dimension.x - 1, coordinates.y + dimension.y - 1};
-    _minOccupied = coordinates;
+    this->setDimension(x_dim, y_dim);
+    this->setCoordinates(x, y);
+
+}
+
+
+void PongObject::setOccupied() {
+
+    _maxOccupied.x = _coordinates.x + _dimension.x - 1;
+    _maxOccupied.y = _coordinates.y + _dimension.y - 1;
+    _minOccupied.x = _coordinates.x;
+    _minOccupied.y = _coordinates.y;
+
+}
+
+
+void PongObject::setDimension(float x, float y) {
+
+    _dimension.x = x;
+    _dimension.y = y;
 
 }
 
@@ -89,6 +105,8 @@ void PongObject::setCoordinates(float newX, float newY) {
     _coordinates.x = newX;
     _coordinates.y = newY;
 
+    this->setOccupied();
+
 }
 
 
@@ -119,7 +137,7 @@ Tuple PongObject::getDimension() {
 }
 
 
-MovableObject::MovableObject(Tuple coordinates, Tuple dimension) : PongObject(coordinates, dimension) {
+MovableObject::MovableObject(float x, float y, float x_dim, float y_dim) : PongObject(x, y, x_dim, y_dim) {
 
     this->setMovementDirection(0, 0);
 
@@ -157,10 +175,11 @@ unsigned long MovableObject::getLastMovementTime() {
 }
 
 
-Ball::Ball(Tuple coordinates, Tuple dimension, float velocity) : MovableObject(coordinates, dimension) {
+Ball::Ball(float x, float y, float x_dim, float y_dim, float velocity) : MovableObject(x, y, x_dim, y_dim) {
 
     _velocity = velocity;
-    _startCoordinates = coordinates;
+    _startCoordinates.x = x;
+    _startCoordinates.y = y;
 
 }
 
@@ -253,7 +272,7 @@ bool Ball::handleCollision(Deadzone deadzone) {
 }
 
 
-Paddle::Paddle(Tuple coordinates, Tuple dimension, float maxY, float minY) : MovableObject(coordinates, dimension) {
+Paddle::Paddle(float x, float y, float x_dim, float y_dim, float maxY, float minY) : MovableObject(x, y, x_dim, y_dim) {
 
     _maxY = maxY;
     _minY = minY;
@@ -272,7 +291,7 @@ void Paddle::setPosition(float newY) {
 }
 
 
-Border::Border(Tuple coordinates, Tuple dimension) : PongObject(coordinates, dimension) {}
+Border::Border(float x, float y, float x_dim, float y_dim) : PongObject(x, y, x_dim, y_dim) {}
 
 
-Deadzone::Deadzone(Tuple coordinates, Tuple dimension) : PongObject(coordinates, dimension) {}
+Deadzone::Deadzone(float x, float y, float x_dim, float y_dim) : PongObject(x, y, x_dim, y_dim) {}
