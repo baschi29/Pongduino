@@ -18,8 +18,8 @@ PongObject::PongObject(float x, float y, float x_dim, float y_dim) {
 
 void PongObject::setDimension(float x, float y) {
 
-    _x = x;
-    _y = y;
+    _xDim = x;
+    _yDim = y;
 
 }
 
