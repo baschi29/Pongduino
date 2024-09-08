@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "Display.h"
+#include "Pongfield.h"
 #include <U8g2lib.h>
 
 // aktuelles Problem: beim include hängt der code an der Stelle der Initialisierung - es geht nicht weiter?
@@ -17,6 +18,9 @@ void Display::begin() {
 
     u8g2.begin();
 
+    // make sure draw color is set to 1 (https://github.com/olikraus/u8g2/wiki/u8g2reference#setdrawcolor)
+    u8g2.setDrawColor(1);
+
 }
 
 
@@ -25,6 +29,17 @@ void Display::writeHelloWorld() {
     u8g2.clearBuffer();
     u8g2.setFont(u8g2_font_ncenB14_tr);
     u8g2.drawStr(0,20,"Hello World!");
+    u8g2.sendBuffer();
+
+}
+
+
+void Display::drawGame(Ball ball, Paddle leftPaddle, Paddle rightPaddle) {
+
+    u8g2.clearBuffer();
+    u8g2.drawBox(ball.getCoordinates().x, ball.getCoordinates().y, ball.getDimension().x, ball.getDimension().y);
+    u8g2.drawBox(leftPaddle.getCoordinates().x, leftPaddle.getCoordinates().y, leftPaddle.getDimension().x, leftPaddle.getDimension().y);
+    u8g2.drawBox(rightPaddle.getCoordinates().x, rightPaddle.getCoordinates().y, rightPaddle.getDimension().x, rightPaddle.getDimension().y);
     u8g2.sendBuffer();
 
 }
