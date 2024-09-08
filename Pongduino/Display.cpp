@@ -37,9 +37,9 @@ void Display::writeHelloWorld() {
 void Display::drawGame(Ball ball, Paddle leftPaddle, Paddle rightPaddle) {
 
     u8g2.clearBuffer();
-    u8g2.drawBox(ball.getCoordinates().x, ball.getCoordinates().y, ball.getDimension().x, ball.getDimension().y);
-    u8g2.drawBox(leftPaddle.getCoordinates().x, leftPaddle.getCoordinates().y, leftPaddle.getDimension().x, leftPaddle.getDimension().y);
-    u8g2.drawBox(rightPaddle.getCoordinates().x, rightPaddle.getCoordinates().y, rightPaddle.getDimension().x, rightPaddle.getDimension().y);
+    u8g2.drawBox(ball.getX(), ball.getY(), ball.getXDim(), ball.getYDim());
+    u8g2.drawBox(leftPaddle.getX(), leftPaddle.getY(), leftPaddle.getXDim(), leftPaddle.getYDim());
+    u8g2.drawBox(rightPaddle.getX(), rightPaddle.getY(), rightPaddle.getXDim(), rightPaddle.getYDim());
     u8g2.sendBuffer();
 
 }

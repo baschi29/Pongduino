@@ -11,14 +11,6 @@ class Border;
 class Deadzone;
 
 
-struct Tuple {
-
-    float x;
-    float y;
-
-};
-
-
 struct GameState {
 
     int leftScore;
@@ -33,10 +25,14 @@ class PongObject {
     public:
         PongObject(float x, float y, float x_dim, float y_dim); // everything is a rectangle, coordinates mark top left point
         bool isColliding(PongObject otherObject);
-        Tuple getMaxOccupied();
-        Tuple getMinOccupied();
-        Tuple getCoordinates();
-        Tuple getDimension();
+        float getMaxOccupiedX();
+        float getMaxOccupiedY();
+        float getMinOccupiedX();
+        float getMinOccupiedY();
+        float getX();
+        float getY();
+        float getXDim();
+        float getYDim();
 
     protected:
         void setCoordinates(float newX, float newY);
@@ -44,12 +40,14 @@ class PongObject {
     private:
         bool isXColliding(PongObject otherObject);
         bool isYColliding(PongObject otherObject);
-        void setOccupied(); // x,y top left
         void setDimension(float x, float y);
-        Tuple _coordinates;
-        Tuple _dimension;
-        Tuple _maxOccupied;
-        Tuple _minOccupied;
+        float _x;
+        float _y;
+        float _xDim;
+        float _yDim;
+        // float maxOccupiedX;
+        // float maxOccupiedY;
+        // Tuple* _minOccupied;
 
 };
 
@@ -58,7 +56,8 @@ class MovableObject : public PongObject {
 
     public:
         MovableObject(float x, float y, float x_dim, float y_dim);
-        Tuple getMovementDirection();
+        float getMovementDirectionX();
+        float getMovementDirectionY();
 
     protected:
         void setMovementDirection(float x, float y);
@@ -66,7 +65,8 @@ class MovableObject : public PongObject {
         unsigned long getLastMovementTime();
 
     private:
-        Tuple _movementDirection; // gets normalized by setMovementDirection (vector)
+        float _movementDirectionX; // gets normalized by setMovementDirection
+        float _movementDirectionY;
         unsigned long _lastMovementTime;
 
 };
@@ -84,7 +84,8 @@ class Ball : public MovableObject {
 
     private:
         float _velocity;
-        Tuple _startCoordinates;
+        float _xStart;
+        float _yStart;
 
 };
 

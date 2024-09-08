@@ -45,9 +45,9 @@ void Controller::startup(int speakerPin, int leftDSTriggerPin, int leftDSEchoPin
     float y = (float)(64 / 2 - 1) - (ballSize - 1) / 2;
     _ball = new Ball(x, y, ballSize, ballSize, 40);
     delay(1000);
-    Serial.println(_ball->getCoordinates().y);
+    Serial.println(_ball->getY());
     delay(1000);
-    Serial.println(_ball->getCoordinates().x);
+    Serial.println(_ball->getX());
     delay(1000);    
     
     // Paddles
@@ -89,12 +89,6 @@ void Controller::startup(int speakerPin, int leftDSTriggerPin, int leftDSEchoPin
     y = 0;
     _rightDeadzone = new Deadzone(x, y, x_dim, y_dim);
 
-    delay(1000);
-    Serial.println("_ball->getCoordinates().y");
-    delay(1000);
-    Serial.println("_ball->getCoordinates().x");
-    delay(1000); 
-
     // Greetings
     _display->begin();
     delay(1000);
@@ -108,9 +102,9 @@ void Controller::startup(int speakerPin, int leftDSTriggerPin, int leftDSEchoPin
 void Controller::tick() {
 
     //_display->writeHelloWorld();
-    //Serial.println((*_ball).getCoordinates().y);
+    Serial.println(_ball->getX());
     //_display->drawGame(*_ball, *_leftPaddle, *_rightPaddle);
-    Serial.println("davor");
+    //Serial.println("davor");
     delay(1000);
     Serial.println("danach");
 
