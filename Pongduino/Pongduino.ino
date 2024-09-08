@@ -29,8 +29,6 @@ void setup () {
     Serial.begin(115200);
     while (!Serial);
 
-    Serial.println("Juchuuu");
-
     controller.startup(13, 3, 2, 5, 4); 
 
 }
