@@ -3,43 +3,42 @@
 #include "Pongfield.h"
 #include <U8g2lib.h>
 
-// aktuelles Problem: beim include hängt der code an der Stelle der Initialisierung - es geht nicht weiter?
-U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 
-
-// Placeholder
-Display::Display() {
-
-}
+Display::Display() : _u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE) {}
 
 
 // function is neccessary as it does not seem possible to call begin before the setup function executed
 void Display::begin() {
 
-    u8g2.begin();
+    _u8g2.begin();
 
     // make sure draw color is set to 1 (https://github.com/olikraus/u8g2/wiki/u8g2reference#setdrawcolor)
-    u8g2.setDrawColor(1);
+    _u8g2.setDrawColor(1);
+
+    _u8g2.setFont(u8g2_font_ncenB14_tr);
 
 }
 
 
-void Display::writeHelloWorld() {
+void Display::drawLogo() {
 
-    u8g2.clearBuffer();
-    u8g2.setFont(u8g2_font_ncenB14_tr);
-    u8g2.drawStr(0,20,"Hello World!");
-    u8g2.sendBuffer();
+    char *text = "Pongduino";
+    u8g2_uint_t width = _u8g2.getStrWidth(text);
+    u8g2_uint_t x = (u8g2_uint_t)((127 - width) / 2);
+
+    _u8g2.clearBuffer();
+    _u8g2.drawStr(x, 20, "Pongduino");
+    _u8g2.sendBuffer();
 
 }
 
 
-void Display::drawGame(Ball ball, Paddle leftPaddle, Paddle rightPaddle) {
+void Display::drawGame(Ball& ball, Paddle& leftPaddle, Paddle& rightPaddle) {
 
-    u8g2.clearBuffer();
-    u8g2.drawBox((u8g2_uint_t)ball.getX(), (u8g2_uint_t)ball.getY(), (u8g2_uint_t)ball.getXDim(), (u8g2_uint_t)ball.getYDim());
-    u8g2.drawBox((u8g2_uint_t)leftPaddle.getX(), (u8g2_uint_t)leftPaddle.getY(), (u8g2_uint_t)leftPaddle.getXDim(), (u8g2_uint_t)leftPaddle.getYDim());
-    u8g2.drawBox((u8g2_uint_t)rightPaddle.getX(), (u8g2_uint_t)rightPaddle.getY(), (u8g2_uint_t)rightPaddle.getXDim(), (u8g2_uint_t)rightPaddle.getYDim());
-    u8g2.sendBuffer();
+    _u8g2.clearBuffer();
+    _u8g2.drawBox((u8g2_uint_t)ball.getX(), (u8g2_uint_t)ball.getY(), (u8g2_uint_t)ball.getXDim(), (u8g2_uint_t)ball.getYDim());
+    _u8g2.drawBox((u8g2_uint_t)leftPaddle.getX(), (u8g2_uint_t)leftPaddle.getY(), (u8g2_uint_t)leftPaddle.getXDim(), (u8g2_uint_t)leftPaddle.getYDim());
+    _u8g2.drawBox((u8g2_uint_t)rightPaddle.getX(), (u8g2_uint_t)rightPaddle.getY(), (u8g2_uint_t)rightPaddle.getXDim(), (u8g2_uint_t)rightPaddle.getYDim());
+    _u8g2.sendBuffer();
 
 }
