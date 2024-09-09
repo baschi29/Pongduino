@@ -24,7 +24,7 @@ class PongObject {
 
     public:
         PongObject(float x, float y, float x_dim, float y_dim); // everything is a rectangle, coordinates mark top left point
-        bool isColliding(PongObject otherObject);
+        bool isColliding(PongObject& otherObject);
         float getMaxOccupiedX();
         float getMaxOccupiedY();
         float getMinOccupiedX();
@@ -38,8 +38,8 @@ class PongObject {
         void setCoordinates(float newX, float newY);
 
     private:
-        bool isXColliding(PongObject otherObject);
-        bool isYColliding(PongObject otherObject);
+        bool isXColliding(PongObject& otherObject);
+        bool isYColliding(PongObject& otherObject);
         void setDimension(float x, float y);
         float _x;
         float _y;
@@ -75,9 +75,9 @@ class Ball : public MovableObject {
         Ball(float x, float y, float x_dim, float y_dim, float velocity); //velocity should be in px/s,
         void move();
         void reset();
-        bool handleCollision(Paddle paddle); // returns true if collision was detected
-        bool handleCollision(Border border);
-        bool handleCollision(Deadzone deadzone);
+        bool handleCollision(Paddle& paddle); // returns true if collision was detected
+        bool handleCollision(Border& border);
+        bool handleCollision(Deadzone& deadzone);
 
     private:
         float _velocity;

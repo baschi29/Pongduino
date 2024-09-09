@@ -24,7 +24,7 @@ void PongObject::setDimension(float x, float y) {
 }
 
 
-bool PongObject::isXColliding(PongObject otherObject) {
+bool PongObject::isXColliding(PongObject& otherObject) {
 
     if (this->getMinOccupiedX() >= otherObject.getMinOccupiedX()) {
 
@@ -49,7 +49,7 @@ bool PongObject::isXColliding(PongObject otherObject) {
 }
 
 
-bool PongObject::isYColliding(PongObject otherObject) {
+bool PongObject::isYColliding(PongObject& otherObject) {
 
     if (this->getMinOccupiedY() >= otherObject.getMinOccupiedY()) {
 
@@ -74,7 +74,7 @@ bool PongObject::isYColliding(PongObject otherObject) {
 }
 
 
-bool PongObject::isColliding(PongObject otherObject) {
+bool PongObject::isColliding(PongObject& otherObject) {
 
     if (this->isXColliding(otherObject) and this->isYColliding(otherObject)) {
 
@@ -204,6 +204,8 @@ Ball::Ball(float x, float y, float x_dim, float y_dim, float velocity) : Movable
     _xStart = x;
     _yStart = y;
 
+    this->setMovementDirection(1, 0);
+
 }
 
 
@@ -228,7 +230,7 @@ void Ball::reset() {
 }
 
 
-bool Ball::handleCollision(Paddle paddle) {
+bool Ball::handleCollision(Paddle& paddle) {
 
     if (this->isColliding(paddle)) {
 
@@ -258,7 +260,7 @@ bool Ball::handleCollision(Paddle paddle) {
 }
 
 
-bool Ball::handleCollision(Border border) { // for now borders are always horizontal
+bool Ball::handleCollision(Border& border) { // for now borders are always horizontal
 
     if (this->isColliding(border)) {
 
@@ -288,7 +290,9 @@ bool Ball::handleCollision(Border border) { // for now borders are always horizo
 }
 
 
-bool Ball::handleCollision(Deadzone deadzone) {
+bool Ball::handleCollision(Deadzone& deadzone) {
+
+    this->reset();
 
     return this->isColliding(deadzone);
 
