@@ -9,7 +9,7 @@ Controller::Controller(float fieldXDim, float fieldYDim, float paddleWidth, floa
     _rightDeadzone(fieldXDim, 0, 3, fieldYDim - 1),
     _leftPaddle(1, (float)(fieldYDim / 2 - 1) - (paddleLength - 1) / 2, paddleWidth, paddleLength, fieldYDim - 2 - paddleLength, 1),
     _rightPaddle((float)fieldXDim - 2 - paddleWidth, (float)(fieldYDim / 2 - 1) - (paddleLength - 1) / 2, paddleWidth, paddleLength, fieldYDim - 2 - paddleLength, 1),
-    _ball((float)(fieldXDim / 2 - 1) - (ballSize - 1) / 2, (float)(fieldYDim / 2 - 1) - (ballSize - 1) / 2, ballSize, ballSize, 40),
+    _ball((float)(fieldXDim / 2 - 1) - (ballSize - 1) / 2, (float)(fieldYDim / 2 - 1) - (ballSize - 1) / 2, ballSize, ballSize, 10),
     _speaker(speakerPin),
     _leftDistanceSensor(leftDSTriggerPin, leftDSEchoPin),
     _rightDistanceSensor(rightDSTriggerPin, rightDSEchoPin) {
@@ -25,7 +25,9 @@ void Controller::startup() {
     _display.begin();
 
     // Greetings
-    delay(1000);
+    delay(100);
+    // does not work lol
+    //_display.drawLogo();
     _speaker.playStartSound();
     delay(1000);
 
@@ -34,11 +36,43 @@ void Controller::startup() {
 
 void Controller::tick() {
 
-    //_display.writeHelloWorld();
-    //Serial.println(_ball->getX());
-    //Serial.println(_rightPaddle.getX());
-    _display.drawGame(_ball, _leftPaddle, _rightPaddle);
-    //Serial.println("davor");
-    delay(2000);
+    if (_gameState.paused) {
+
+        delay(2000);
+        _gameState.paused = false;
+
+    }
+    else {
+
+        // todo: display refresh rate
+        _display.drawGame(_ball, _leftPaddle, _rightPaddle);
+        _ball.move();
+
+        if (_ball.handleCollision(_leftPaddle) 
+            or _ball.handleCollision(_rightPaddle) 
+            or _ball.handleCollision(_topBorder) 
+            or _ball.handleCollision(_botBorder)) {
+
+            _speaker.playHitSound();
+
+        }
+        else if (_ball.handleCollision(_leftDeadzone)) {
+
+            _speaker.playStopSound();
+            _gameState.rightScore += 1;
+            _gameState.paused = true;
+
+        }
+        else if (_ball.handleCollision(_rightDeadzone)) {
+
+            _speaker.playStopSound();
+            _gameState.leftScore += 1;
+            _gameState.paused = true;
+
+        }
+
+        delay(100);
+
+    }
 
 }
