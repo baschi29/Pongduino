@@ -19,8 +19,8 @@
 #include "DistanceSensor.h"
 #include "Controller.h"
 
-// Pin assignment in controller: speaker, leftdstrigger, leftdsecho, rightdstrigger, rightdsecho
-Controller controller;
+// fieldXDim, float fieldYDim, float paddleWidth, float paddleLength, float ballSize, speakerPin, leftDSTriggerPin, leftDSEchoPin, rightDSTriggerPin, rightDSEchoPin
+Controller controller(128, 64, 3, 9, 3, 13, 3, 2, 5, 4);
 
 
 void setup () {
@@ -29,7 +29,7 @@ void setup () {
     Serial.begin(115200);
     while (!Serial);
 
-    controller.startup(13, 3, 2, 5, 4); 
+    controller.startup(); 
 
 }
 

@@ -45,9 +45,6 @@ class PongObject {
         float _y;
         float _xDim;
         float _yDim;
-        // float maxOccupiedX;
-        // float maxOccupiedY;
-        // Tuple* _minOccupied;
 
 };
 
@@ -94,7 +91,7 @@ class Paddle : public MovableObject {
 
     public:
         Paddle(float x, float y, float x_dim, float y_dim, float maxY, float minY);
-        void setPosition(float newY); //sets y Position of Peddle
+        void setPosition(float newY); //sets y Position of Paddle
 
     private:
         float _maxY;
