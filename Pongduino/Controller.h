@@ -13,6 +13,8 @@ class Controller {
         Controller(float fieldXDim, float fieldYDim, float paddleLength, float paddleWidth, float ballSize, int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin);
         void tick();
         void startup();
+        void pause();
+        void unpause();
 
     private:
         GameState _gameState;

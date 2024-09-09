@@ -55,6 +55,7 @@ class MovableObject : public PongObject {
         MovableObject(float x, float y, float x_dim, float y_dim);
         float getMovementDirectionX();
         float getMovementDirectionY();
+        void stayStill();
 
     protected:
         void setMovementDirection(float x, float y);

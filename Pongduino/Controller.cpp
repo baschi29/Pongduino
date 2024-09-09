@@ -26,10 +26,25 @@ void Controller::startup() {
 
     // Greetings
     delay(100);
-    // does not work lol
-    //_display.drawLogo();
+    _display.drawLogo();
     _speaker.playStartSound();
     delay(1000);
+
+}
+
+
+void Controller::pause() {
+
+    _gameState.paused = true;
+
+}
+
+
+void Controller::unpause() {
+
+    _gameState.paused = false;
+    // reset movement timer
+    _ball.stayStill();
 
 }
 
@@ -39,7 +54,7 @@ void Controller::tick() {
     if (_gameState.paused) {
 
         delay(2000);
-        _gameState.paused = false;
+        this->unpause();
 
     }
     else {
@@ -60,14 +75,14 @@ void Controller::tick() {
 
             _speaker.playStopSound();
             _gameState.rightScore += 1;
-            _gameState.paused = true;
+            this->pause();
 
         }
         else if (_ball.handleCollision(_rightDeadzone)) {
 
             _speaker.playStopSound();
             _gameState.leftScore += 1;
-            _gameState.paused = true;
+            this->pause();
 
         }
 

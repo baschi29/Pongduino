@@ -198,6 +198,13 @@ unsigned long MovableObject::getLastMovementTime() {
 }
 
 
+void MovableObject::stayStill() {
+
+    this->setCoordinates(this->getX(), this->getY());
+
+}
+
+
 Ball::Ball(float x, float y, float x_dim, float y_dim, float velocity) : MovableObject(x, y, x_dim, y_dim) {
 
     _velocity = velocity;
