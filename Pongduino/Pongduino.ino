@@ -19,8 +19,8 @@
 #include "DistanceSensor.h"
 #include "Controller.h"
 
-// fieldXDim, float fieldYDim, float paddleWidth, float paddleLength, float ballSize, speakerPin, leftDSTriggerPin, leftDSEchoPin, rightDSTriggerPin, rightDSEchoPin
-Controller controller(128, 64, 3, 9, 3, 13, 3, 2, 5, 4);
+// fieldXDim, fieldYDim, paddleWidth, paddleLength, ballSize, speakerPin, leftDSTriggerPin, leftDSEchoPin, rightDSTriggerPin, rightDSEchoPin
+Controller controller(128, 64, 3, 15, 3, 13, 3, 2, 5, 4);
 
 
 void setup () {

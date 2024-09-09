@@ -34,9 +34,9 @@ void Controller::startup() {
 
 void Controller::tick() {
 
-    //_display->writeHelloWorld();
+    //_display.writeHelloWorld();
     //Serial.println(_ball->getX());
-    Serial.println(_rightPaddle.getX());
+    //Serial.println(_rightPaddle.getX());
     _display.drawGame(_ball, _leftPaddle, _rightPaddle);
     //Serial.println("davor");
     delay(2000);
