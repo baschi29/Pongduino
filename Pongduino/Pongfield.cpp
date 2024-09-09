@@ -292,9 +292,17 @@ bool Ball::handleCollision(Border& border) { // for now borders are always horiz
 
 bool Ball::handleCollision(Deadzone& deadzone) {
 
-    this->reset();
+    if (this->isColliding(deadzone)) {
 
-    return this->isColliding(deadzone);
+        this->reset();
+        return true;
+
+    }
+    else {
+
+        return false;
+
+    }
 
 }
 
