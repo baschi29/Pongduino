@@ -211,7 +211,7 @@ Ball::Ball(int x, int y, int x_dim, int y_dim, float velocity) : MovableObject(x
     _xStart = x;
     _yStart = y;
 
-    this->setMovementDirection(1, 0);
+    this->reset();
 
 }
 
@@ -232,8 +232,33 @@ void Ball::move() {
 
 void Ball::reset() {
 
-    Serial.println(this->getX());
+    int sign1 = random(0, 2);
 
+    if (sign1 == 0) {
+
+        sign1 = -1;
+
+    }
+    else {
+
+        sign1 = 1;
+
+    }
+
+    int sign2 = random(0, 2); 
+
+    if (sign2 == 0) {
+
+        sign2 = -1;
+
+    }
+    else {
+
+        sign2 = 1;
+
+    }
+
+    this->setMovementDirection(sign1 * random(1, 5), sign2 * random(1, 5));
     this->setCoordinates(_xStart, _yStart);
 
 }
