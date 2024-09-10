@@ -53,6 +53,6 @@ void Speaker::playReadySound() {
 
     noTone(_pin);
     delay(10);
-    tone(_pin, NOTE_G4, 300);
+    tone(_pin, NOTE_G4, 100);
 
 }
