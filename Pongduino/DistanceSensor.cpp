@@ -13,18 +13,18 @@ DistanceSensor::DistanceSensor(int triggerPin, int echoPin) {
     delayMicroseconds(2);
     pinMode(_echoPin, INPUT);
 
+}
+
+
+void DistanceSensor::begin() {
+
     // fill past values with random measurements
     // setup double exponential smoothing like https://en.wikipedia.org/wiki/Exponential_smoothing
     _lastMeasurementTime = 0;
-    this->doSingleMeasurement();
-    _smoothedValue = _lastMeasurementValue;
     delay(60);
-    this->doSingleMeasurement();
-
-    _bestTrendEstimate = _lastMeasurementValue - _smoothedValue;
-
-    _dataSmoothingFactor = 0.9;
-    _trendSmoothingFactor = 0.9;
+    _smoothedValue = this->doSingleMeasurement();;
+    delay(60);
+    _bestTrendEstimate = this->doSingleMeasurement() - _smoothedValue;
 
 }
 
@@ -35,13 +35,13 @@ float DistanceSensor::measure() {
 
     if (this->isReadyForNewMeasurement()) {
 
+        float dataSmoothingFactor = 0.9;
+        float trendSmoothingFactor = 0.95;
+
         float lastSmoothedValue = _smoothedValue;
-        float lastBestTrendEstimate = _bestTrendEstimate;
 
-        this->doSingleMeasurement();
-
-        _smoothedValue = _dataSmoothingFactor * _lastMeasurementValue + (1 - _dataSmoothingFactor) * (lastSmoothedValue + lastBestTrendEstimate);
-        _bestTrendEstimate = _trendSmoothingFactor * (_smoothedValue - lastSmoothedValue) + (1 - _trendSmoothingFactor) * lastBestTrendEstimate;
+        _smoothedValue = dataSmoothingFactor * this->doSingleMeasurement() + (1 - dataSmoothingFactor) * (lastSmoothedValue + _bestTrendEstimate);
+        _bestTrendEstimate = trendSmoothingFactor * (_smoothedValue - lastSmoothedValue) + (1 - trendSmoothingFactor) * _bestTrendEstimate;
         
         return _smoothedValue;
 
@@ -55,19 +55,14 @@ float DistanceSensor::measure() {
 }
 
 
-void DistanceSensor::doSingleMeasurement() {
+float DistanceSensor::doSingleMeasurement() {
 
-    
-    if (this->isReadyForNewMeasurement()) { 
-
-        digitalWrite(_triggerPin, HIGH);
-        delayMicroseconds(10);
-        digitalWrite(_triggerPin, LOW);
-        int duration = pulseIn(_echoPin, HIGH);
-        _lastMeasurementTime = millis();
-        _lastMeasurementValue = duration / 58; // #TODO wo kommt die 58 her
-
-    }
+    digitalWrite(_triggerPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(_triggerPin, LOW);
+    int duration = pulseIn(_echoPin, HIGH);
+    _lastMeasurementTime = millis();
+    return duration / 58; // #TODO wo kommt die 58 her
 
 }
 

@@ -29,7 +29,13 @@ void setup () {
     Serial.begin(115200);
     while (!Serial);
 
+    //Controller controller(128, 64, 3, 15, 3, 13, 3, 2, 5, 4);
+    
     controller.startup(); 
+
+    display_freeram();
+
+    delay(5000);
 
 }
 
@@ -37,5 +43,28 @@ void setup () {
 void loop () {
 
     controller.tick();
+    //display_freeram();
+
+}
+
+
+void display_freeram() {
+
+  Serial.print(F("- SRAM left: "));
+
+  Serial.println(freeRam());
+
+}
+
+
+int freeRam() {
+
+  extern int __heap_start,*__brkval;
+
+  int v;
+
+  return (int)&v - (__brkval == 0  
+
+    ? (int)&__heap_start : (int) __brkval);  
 
 }

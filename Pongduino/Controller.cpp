@@ -25,6 +25,8 @@ Controller::Controller(int fieldXDim, int fieldYDim, int paddleWidth, int paddle
 void Controller::startup() {
 
     _display.begin();
+    _leftDistanceSensor.begin();
+    _rightDistanceSensor.begin();
 
     // Greetings
     delay(100);
