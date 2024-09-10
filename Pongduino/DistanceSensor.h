@@ -13,6 +13,7 @@ class DistanceSensor {
         int _triggerPin;
         int _echoPin;
         float _lastMeasurementValue;
+        float _secondLastMeasurementValue;
         unsigned long _lastMeasurementTime; // using millis function
         
 };

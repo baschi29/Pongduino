@@ -34,19 +34,11 @@ float DistanceSensor::measure() {
         digitalWrite(_triggerPin, LOW);
         int duration = pulseIn(_echoPin, HIGH);
         _lastMeasurementTime = millis();
-        _lastMeasurementValue = duration / 58; // #TODO wo kommt die 58 her
+        float measurementValue = duration / 58; // #TODO wo kommt die 58 her
 
-        if (_lastMeasurementValue >= 38000 / 58) {
-
-            Serial.print("Out of Range");
-
-        }
-        else {
-
-            Serial.print(_lastMeasurementValue);
-            Serial.print("cm");
-
-        }
+        // smooth measurement with linear recursive exponential filter
+        _secondLastMeasurementValue = _lastMeasurementValue;
+        _lastMeasurementValue = measurementValue * 0.8 + _lastMeasurementValue * 0.16 + _secondLastMeasurementValue * 0.04;
 
         return _lastMeasurementValue;
 
