@@ -8,7 +8,7 @@ template <typename T> int sgn(T val) {
 }
 
 
-PongObject::PongObject(float x, float y, float x_dim, float y_dim) {
+PongObject::PongObject(int x, int y, int x_dim, int y_dim) {
 
     this->setDimension(x_dim, y_dim);
     this->setCoordinates(x, y);
@@ -16,7 +16,7 @@ PongObject::PongObject(float x, float y, float x_dim, float y_dim) {
 }
 
 
-void PongObject::setDimension(float x, float y) {
+void PongObject::setDimension(int x, int y) {
 
     _xDim = x;
     _yDim = y;
@@ -152,7 +152,7 @@ int PongObject::getYDim() {
 }
 
 
-MovableObject::MovableObject(float x, float y, float x_dim, float y_dim) : PongObject(x, y, x_dim, y_dim) {
+MovableObject::MovableObject(int x, int y, int x_dim, int y_dim) : PongObject(x, y, x_dim, y_dim) {
 
     this->setMovementDirection(0, 0);
 
@@ -205,7 +205,7 @@ void MovableObject::stayStill() {
 }
 
 
-Ball::Ball(float x, float y, float x_dim, float y_dim, float velocity) : MovableObject(x, y, x_dim, y_dim) {
+Ball::Ball(int x, int y, int x_dim, int y_dim, float velocity) : MovableObject(x, y, x_dim, y_dim) {
 
     _velocity = velocity;
     _xStart = x;
@@ -314,7 +314,7 @@ bool Ball::handleCollision(Deadzone& deadzone) {
 }
 
 
-Paddle::Paddle(float x, float y, float x_dim, float y_dim, float maxY, float minY) : MovableObject(x, y, x_dim, y_dim) {
+Paddle::Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY) : MovableObject(x, y, x_dim, y_dim) {
 
     _maxY = maxY;
     _minY = minY;
@@ -333,7 +333,7 @@ void Paddle::setPosition(float newY) {
 }
 
 
-Border::Border(float x, float y, float x_dim, float y_dim) : PongObject(x, y, x_dim, y_dim) {}
+Border::Border(int x, int y, int x_dim, int y_dim) : PongObject(x, y, x_dim, y_dim) {}
 
 
-Deadzone::Deadzone(float x, float y, float x_dim, float y_dim) : PongObject(x, y, x_dim, y_dim) {}
+Deadzone::Deadzone(int x, int y, int x_dim, int y_dim) : PongObject(x, y, x_dim, y_dim) {}

@@ -53,6 +53,7 @@ void Controller::tick() {
 
     if (_gameState.paused) {
 
+        _display.drawScore(_gameState.leftScore, _gameState.rightScore);
         delay(2000);
         this->unpause();
 

@@ -13,8 +13,8 @@ class Deadzone;
 
 struct GameState {
 
-    int leftScore;
-    int rightScore;
+    unsigned short int leftScore;
+    unsigned short int rightScore;
     bool paused;
 
 };
@@ -23,7 +23,7 @@ struct GameState {
 class PongObject {
 
     public:
-        PongObject(float x, float y, float x_dim, float y_dim); // everything is a rectangle, coordinates mark top left point
+        PongObject(int x, int y, int x_dim, int y_dim); // everything is a rectangle, coordinates mark top left point
         bool isColliding(PongObject& otherObject);
         float getMaxOccupiedX();
         float getMaxOccupiedY();
@@ -40,7 +40,7 @@ class PongObject {
     private:
         bool isXColliding(PongObject& otherObject);
         bool isYColliding(PongObject& otherObject);
-        void setDimension(float x, float y);
+        void setDimension(int x, int y);
         float _x;
         float _y;
         int _xDim;
@@ -52,7 +52,7 @@ class PongObject {
 class MovableObject : public PongObject {
 
     public:
-        MovableObject(float x, float y, float x_dim, float y_dim);
+        MovableObject(int x, int y, int x_dim, int y_dim);
         float getMovementDirectionX();
         float getMovementDirectionY();
         void stayStill();
@@ -73,7 +73,7 @@ class MovableObject : public PongObject {
 class Ball : public MovableObject {
 
     public:
-        Ball(float x, float y, float x_dim, float y_dim, float velocity); //velocity should be in px/s,
+        Ball(int x, int y, int x_dim, int y_dim, float velocity); //velocity should be in px/s,
         void move();
         void reset();
         bool handleCollision(Paddle& paddle); // returns true if collision was detected
@@ -82,8 +82,8 @@ class Ball : public MovableObject {
 
     private:
         float _velocity;
-        float _xStart;
-        float _yStart;
+        int _xStart;
+        int _yStart;
 
 };
 
@@ -91,12 +91,12 @@ class Ball : public MovableObject {
 class Paddle : public MovableObject {
 
     public:
-        Paddle(float x, float y, float x_dim, float y_dim, float maxY, float minY);
+        Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY);
         void setPosition(float newY); //sets y Position of Paddle
 
     private:
-        float _maxY;
-        float _minY;
+        int _maxY;
+        int _minY;
         
 };
 
@@ -104,7 +104,7 @@ class Paddle : public MovableObject {
 class Border : public PongObject {
 
     public:
-        Border(float x, float y, float x_dim, float y_dim);
+        Border(int x, int y, int x_dim, int y_dim);
 
 };
 
@@ -112,7 +112,7 @@ class Border : public PongObject {
 class Deadzone : public PongObject {
 
     public:
-        Deadzone(float x, float y, float x_dim, float y_dim);
+        Deadzone(int x, int y, int x_dim, int y_dim);
 
 };
 
