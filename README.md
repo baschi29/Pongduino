@@ -13,7 +13,7 @@ Yet another Arduino Pong game using distance sensors as controllers. Build and p
 
 ## Libraries
 
-- U8g2lib
+- [U8g2lib](https://github.com/olikraus/u8g2)
 - the file Pitches.h, originally written by Brett Hagman, to supply a note table
 
 ## License
