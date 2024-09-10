@@ -12,12 +12,15 @@ class Display {
         void drawLogo();
         void begin();
         void drawGame(Ball& ball, Paddle& leftPaddle, Paddle& rightPaddle);
+        void drawScore(int leftScore, int rightScore);
         
     private:
         void drawPongObject(PongObject& pongObject);
+        void drawCenteredString(const char *str, int y);
+        void prepareDraw();
+        void executeDraw();
         U8G2_SH1106_128X64_NONAME_F_HW_I2C _u8g2;
-        unsigned long _lastDraw;
-        
+        unsigned long _lastDraw;       
         
 };
 
