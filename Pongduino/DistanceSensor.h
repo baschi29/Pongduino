@@ -10,10 +10,15 @@ class DistanceSensor {
         float measure();
 
     private:
+        void doSingleMeasurement();
+        bool isReadyForNewMeasurement();
         int _triggerPin;
         int _echoPin;
         float _lastMeasurementValue;
-        float _secondLastMeasurementValue;
+        float _bestTrendEstimate;
+        float _smoothedValue;
+        float _dataSmoothingFactor;
+        float _trendSmoothingFactor;
         unsigned long _lastMeasurementTime; // using millis function
         
 };
