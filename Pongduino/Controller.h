@@ -10,7 +10,7 @@
 class Controller {
 
     public:
-        Controller(float fieldXDim, float fieldYDim, float paddleLength, float paddleWidth, float ballSize, int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin);
+        Controller(int fieldXDim, int fieldYDim, int paddleLength, int paddleWidth, int ballSize, int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin);
         void tick();
         void startup();
         void pause();

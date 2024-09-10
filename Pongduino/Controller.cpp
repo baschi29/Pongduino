@@ -2,7 +2,7 @@
 #include "Controller.h"
 
 
-Controller::Controller(float fieldXDim, float fieldYDim, float paddleWidth, float paddleLength, float ballSize, int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin) : 
+Controller::Controller(int fieldXDim, int fieldYDim, int paddleWidth, int paddleLength, int ballSize, int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin) : 
     _topBorder(-1, -3, fieldXDim - 1 + 3, 3),
     _botBorder(-1, fieldYDim, fieldXDim - 1 + 3, 3),
     _leftDeadzone(-3 , 0, 3, fieldYDim - 1),
