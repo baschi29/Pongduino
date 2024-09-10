@@ -35,16 +35,23 @@ void Display::drawLogo() {
 
 void Display::drawGame(Ball& ball, Paddle& leftPaddle, Paddle& rightPaddle) {
 
-    if (millis() - _lastDraw > 15) {
+    if (millis() - _lastDraw > 20) {
 
         _u8g2.clearBuffer();
-        _u8g2.drawBox((u8g2_uint_t)ball.getX(), (u8g2_uint_t)ball.getY(), (u8g2_uint_t)ball.getXDim(), (u8g2_uint_t)ball.getYDim());
-        _u8g2.drawBox((u8g2_uint_t)leftPaddle.getX(), (u8g2_uint_t)leftPaddle.getY(), (u8g2_uint_t)leftPaddle.getXDim(), (u8g2_uint_t)leftPaddle.getYDim());
-        _u8g2.drawBox((u8g2_uint_t)rightPaddle.getX(), (u8g2_uint_t)rightPaddle.getY(), (u8g2_uint_t)rightPaddle.getXDim(), (u8g2_uint_t)rightPaddle.getYDim());
+        this->drawPongObject(ball);
+        this->drawPongObject(leftPaddle);
+        this->drawPongObject(rightPaddle);
         _u8g2.sendBuffer();
 
         _lastDraw = millis();
 
     }
+
+}
+
+
+void Display::drawPongObject(PongObject& pongObject) {
+
+    _u8g2.drawBox(round(pongObject.getX()), round(pongObject.getY()), (u8g2_uint_t)pongObject.getXDim(), (u8g2_uint_t)pongObject.getYDim());
 
 }
