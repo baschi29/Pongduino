@@ -91,12 +91,14 @@ class Ball : public MovableObject {
 class Paddle : public MovableObject {
 
     public:
-        Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY);
-        void setPosition(float newY); //sets y Position of Paddle
+        Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY, int fieldYDim, int measurementRange, int measurmentOffset);
+        void setPositionFromMeasurement(float measurement);
 
     private:
+        void setPosition(float newY); //sets y Position of Paddle
         int _maxY;
         int _minY;
+        float _distanceConversionFactor;
         
 };
 
