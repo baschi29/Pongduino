@@ -35,10 +35,16 @@ void Display::drawLogo() {
 
 void Display::drawGame(Ball& ball, Paddle& leftPaddle, Paddle& rightPaddle) {
 
-    _u8g2.clearBuffer();
-    _u8g2.drawBox((u8g2_uint_t)ball.getX(), (u8g2_uint_t)ball.getY(), (u8g2_uint_t)ball.getXDim(), (u8g2_uint_t)ball.getYDim());
-    _u8g2.drawBox((u8g2_uint_t)leftPaddle.getX(), (u8g2_uint_t)leftPaddle.getY(), (u8g2_uint_t)leftPaddle.getXDim(), (u8g2_uint_t)leftPaddle.getYDim());
-    _u8g2.drawBox((u8g2_uint_t)rightPaddle.getX(), (u8g2_uint_t)rightPaddle.getY(), (u8g2_uint_t)rightPaddle.getXDim(), (u8g2_uint_t)rightPaddle.getYDim());
-    _u8g2.sendBuffer();
+    if (millis() - _lastDraw > 10) {
+
+        _u8g2.clearBuffer();
+        _u8g2.drawBox((u8g2_uint_t)ball.getX(), (u8g2_uint_t)ball.getY(), (u8g2_uint_t)ball.getXDim(), (u8g2_uint_t)ball.getYDim());
+        _u8g2.drawBox((u8g2_uint_t)leftPaddle.getX(), (u8g2_uint_t)leftPaddle.getY(), (u8g2_uint_t)leftPaddle.getXDim(), (u8g2_uint_t)leftPaddle.getYDim());
+        _u8g2.drawBox((u8g2_uint_t)rightPaddle.getX(), (u8g2_uint_t)rightPaddle.getY(), (u8g2_uint_t)rightPaddle.getXDim(), (u8g2_uint_t)rightPaddle.getYDim());
+        _u8g2.sendBuffer();
+
+        _lastDraw = millis();
+
+    }
 
 }

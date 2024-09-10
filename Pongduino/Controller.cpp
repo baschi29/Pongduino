@@ -59,7 +59,6 @@ void Controller::tick() {
     }
     else {
 
-        // todo: display refresh rate
         _display.drawGame(_ball, _leftPaddle, _rightPaddle);
         _ball.move();
 
@@ -85,8 +84,6 @@ void Controller::tick() {
             this->pause();
 
         }
-
-        delay(100);
 
     }
 
