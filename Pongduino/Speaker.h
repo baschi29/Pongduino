@@ -10,6 +10,7 @@ class Speaker {
         void playStartSound();
         void playStopSound();
         void playHitSound();
+        void playReadySound();
 
     private:
         int _pin;

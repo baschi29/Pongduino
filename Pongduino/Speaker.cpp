@@ -49,3 +49,12 @@ void Speaker::playHitSound() {
     tone(_pin, NOTE_C2, 200);
 
 }
+
+
+void Speaker::playReadySound() {
+
+    noTone(_pin);
+    delay(10);
+    tone(_pin, NOTE_G4, 300);
+
+}

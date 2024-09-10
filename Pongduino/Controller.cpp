@@ -28,7 +28,7 @@ void Controller::startup() {
     delay(100);
     _display.drawLogo();
     _speaker.playStartSound();
-    delay(1000);
+    delay(500);
 
 }
 
@@ -43,6 +43,7 @@ void Controller::pause() {
 void Controller::unpause() {
 
     _gameState.paused = false;
+    _speaker.playReadySound();
     // reset movement timer
     _ball.stayStill();
 
@@ -55,6 +56,8 @@ void Controller::tick() {
 
         _display.drawScore(_gameState.leftScore, _gameState.rightScore);
         delay(2000);
+        _display.drawGame(_ball, _leftPaddle, _rightPaddle);
+        delay(500);
         this->unpause();
 
     }
