@@ -52,6 +52,6 @@ void Display::drawGame(Ball& ball, Paddle& leftPaddle, Paddle& rightPaddle) {
 
 void Display::drawPongObject(PongObject& pongObject) {
 
-    _u8g2.drawBox(round(pongObject.getX()), round(pongObject.getY()), (u8g2_uint_t)pongObject.getXDim(), (u8g2_uint_t)pongObject.getYDim());
+    _u8g2.drawBox(round(pongObject.getX()), round(pongObject.getY()), pongObject.getXDim(), pongObject.getYDim());
 
 }

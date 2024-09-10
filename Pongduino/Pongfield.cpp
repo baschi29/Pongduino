@@ -140,13 +140,13 @@ float PongObject::getY() {
 }
 
 
-float PongObject::getXDim() {
+int PongObject::getXDim() {
 
     return _xDim;
 }
 
 
-float PongObject::getYDim() {
+int PongObject::getYDim() {
 
     return _yDim;
 }

@@ -31,8 +31,8 @@ class PongObject {
         float getMinOccupiedY();
         float getX();
         float getY();
-        float getXDim();
-        float getYDim();
+        int getXDim();
+        int getYDim();
 
     protected:
         void setCoordinates(float newX, float newY);
@@ -43,8 +43,8 @@ class PongObject {
         void setDimension(float x, float y);
         float _x;
         float _y;
-        float _xDim;
-        float _yDim;
+        int _xDim;
+        int _yDim;
 
 };
 
