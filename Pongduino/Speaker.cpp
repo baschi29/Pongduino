@@ -35,9 +35,7 @@ void Speaker::playStopSound() {
     delay(100);
     tone(_pin, NOTE_E4);
     delay(200);
-    tone(_pin, NOTE_C4);
-    delay(200);
-    noTone(_pin);
+    tone(_pin, NOTE_C4, 200);
 
 }
 
