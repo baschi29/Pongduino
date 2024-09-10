@@ -35,7 +35,7 @@ void Display::drawLogo() {
 
 void Display::drawGame(Ball& ball, Paddle& leftPaddle, Paddle& rightPaddle) {
 
-    if (millis() - _lastDraw > 10) {
+    if (millis() - _lastDraw > 15) {
 
         _u8g2.clearBuffer();
         _u8g2.drawBox((u8g2_uint_t)ball.getX(), (u8g2_uint_t)ball.getY(), (u8g2_uint_t)ball.getXDim(), (u8g2_uint_t)ball.getYDim());
