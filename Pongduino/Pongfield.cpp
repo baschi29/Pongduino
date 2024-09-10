@@ -232,6 +232,8 @@ void Ball::move() {
 
 void Ball::reset() {
 
+    Serial.println(this->getX());
+
     this->setCoordinates(_xStart, _yStart);
 
 }

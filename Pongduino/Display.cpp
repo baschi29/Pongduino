@@ -77,7 +77,18 @@ void Display::drawGame(Ball& ball, Paddle& leftPaddle, Paddle& rightPaddle) {
 
 void Display::drawPongObject(PongObject& pongObject) {
 
-    _u8g2.drawBox(round(pongObject.getX()), round(pongObject.getY()), pongObject.getXDim(), pongObject.getYDim());
+    int x = round(pongObject.getX());
+    int xDim = pongObject.getXDim();
+
+    if (126 - x < xDim) {
+
+        xDim = 126 - x;
+        Serial.println(x);
+        Serial.println(xDim);
+
+    }
+
+    _u8g2.drawBox(x, round(pongObject.getY()), xDim, pongObject.getYDim());
 
 }
 
