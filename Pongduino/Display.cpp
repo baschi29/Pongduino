@@ -5,7 +5,11 @@
 #include <stdio.h>
 
 
-Display::Display() : _u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE) {}
+Display::Display() : _u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE) {
+
+    _lastDraw = millis();
+
+}
 
 
 // function is neccessary as it does not seem possible to call begin before the setup function executed
@@ -23,26 +27,30 @@ void Display::begin() {
 
 void Display::drawLogo() {
 
-    this->prepareDraw();
-    const char* str = "Pongduino";
-    this->drawCenteredString(str, 20);
-    this->executeDraw();
+    _u8g2.firstPage();
+    do {
+
+        const char* str = "Pongduino";
+        this->drawCenteredString(str, 20);
+
+    } while (_u8g2.nextPage());
 
 }
 
 
 void Display::drawScore(int leftScore, int rightScore) {
 
-    this->prepareDraw();
+    _u8g2.firstPage();
+    do {
 
-    const char* str1 = "Pongduino";
-    this->drawCenteredString(str1, 20);
-    // this will stop to work when scores go beyond 99
-    char score[8];
-    snprintf(score, 8, "%d : %d", leftScore, rightScore);
-    this->drawCenteredString(score, 50);
+        const char* str1 = "Pongduino";
+        this->drawCenteredString(str1, 20);
+        // this will stop to work when scores go beyond 99
+        char score[8];
+        snprintf(score, 8, "%d : %d", leftScore, rightScore);
+        this->drawCenteredString(score, 50);
 
-    this->executeDraw();
+    } while (_u8g2.nextPage());
 
 }
 
@@ -51,13 +59,16 @@ void Display::drawGame(Ball& ball, Paddle& leftPaddle, Paddle& rightPaddle) {
 
     if (millis() - _lastDraw > 20) {
 
-        this->prepareDraw();
+        _u8g2.firstPage();
+        do {
 
-        this->drawPongObject(ball);
-        this->drawPongObject(leftPaddle);
-        this->drawPongObject(rightPaddle);
+            this->drawPongObject(ball);
+            this->drawPongObject(leftPaddle);
+            this->drawPongObject(rightPaddle);
 
-        this->executeDraw();
+        } while (_u8g2.nextPage());
+
+        _lastDraw = millis();
 
     }
 
@@ -77,20 +88,5 @@ void Display::drawCenteredString(const char* str, int y) {
     u8g2_uint_t x = (u8g2_uint_t)((127 - width) / 2);
 
     _u8g2.drawStr(x, y, str);
-
-}
-
-
-void Display::prepareDraw() {
-
-    _u8g2.clearBuffer();
-
-}
-
-
-void Display::executeDraw() {
-
-    _u8g2.sendBuffer();
-    _lastDraw = millis();
 
 }
