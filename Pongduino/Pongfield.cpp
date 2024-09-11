@@ -346,14 +346,14 @@ Paddle::Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY, int field
     _maxY = maxY;
     _minY = minY;
 
-    _distanceConversionFactor = maxY / (measurementRange + measurementOffset);
+    _distanceConversionFactor = - maxY / (measurementRange);
 
 }
 
 
 void Paddle::setPositionFromMeasurement(float measurement) {
 
-    this->setPosition(measurement * _distanceConversionFactor);
+    this->setPosition((measurement - _measurementOffset) * _distanceConversionFactor + _maxY);
 
 }
 

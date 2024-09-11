@@ -99,6 +99,7 @@ class Paddle : public MovableObject {
         int _maxY;
         int _minY;
         float _distanceConversionFactor;
+        int _measurementOffset;
         
 };
 
