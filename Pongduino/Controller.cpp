@@ -66,27 +66,26 @@ void Controller::tick() {
 
     }
     else {
+
+        HitState hit {false, false, false, false};
         
         _leftPaddle.setPositionFromMeasurement(_leftDistanceSensor.measure());
         _rightPaddle.setPositionFromMeasurement(_rightDistanceSensor.measure());
-        _ball.move();
+        _ball.move(hit, _leftPaddle, _rightPaddle, _topBorder, _botBorder, _leftDeadzone, _rightDeadzone);
 
-        if (_ball.handleCollision(_leftPaddle) 
-            or _ball.handleCollision(_rightPaddle) 
-            or _ball.handleCollision(_topBorder) 
-            or _ball.handleCollision(_botBorder)) {
+        if (hit.paddle or hit.border) {
 
             _speaker.playHitSound();
 
         }
-        else if (_ball.handleCollision(_leftDeadzone)) {
+        else if (hit.leftDeadzone) {
 
             _speaker.playStopSound();
             _gameState.rightScore += 1;
             this->pause();
 
         }
-        else if (_ball.handleCollision(_rightDeadzone)) {
+        else if (hit.rightDeadzone) {
 
             _speaker.playStopSound();
             _gameState.leftScore += 1;

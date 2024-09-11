@@ -216,7 +216,8 @@ Ball::Ball(int x, int y, int x_dim, int y_dim, float velocity) : MovableObject(x
 }
 
 
-void Ball::move() {
+// mutates HitState
+void Ball::move(HitState& hit, Paddle& leftPaddle, Paddle& rightPaddle, Border& topBorder, Border& botBorder, Deadzone& leftDeadzone, Deadzone& rightDeadzone) {
 
     unsigned long now = millis();
 
@@ -226,6 +227,32 @@ void Ball::move() {
     float newY = this->getY() + overallMovement * this->getMovementDirectionY();
 
     this->setCoordinates(newX, newY);
+
+    // calculate and set "return" values
+    if (this->handleCollision(leftPaddle)
+        or this->handleCollision(rightPaddle)) {
+
+        hit.paddle = true;
+
+    }
+
+    if (this->handleCollision(topBorder)
+        or this->handleCollision(botBorder)) {
+
+        hit.border = true;
+
+    }
+
+    if (this->handleCollision(leftDeadzone)) {
+
+        hit.leftDeadzone = true;
+
+    }
+    else if (this->handleCollision(rightDeadzone)) {
+
+        hit.rightDeadzone = true;
+
+    }
 
 }
 

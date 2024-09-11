@@ -20,6 +20,16 @@ struct GameState {
 };
 
 
+struct HitState {
+
+    bool paddle;
+    bool border;
+    bool leftDeadzone;
+    bool rightDeadzone;
+
+};
+
+
 class PongObject {
 
     public:
@@ -74,7 +84,7 @@ class Ball : public MovableObject {
 
     public:
         Ball(int x, int y, int x_dim, int y_dim, float velocity); //velocity should be in px/s,
-        void move();
+        void move(HitState& hit, Paddle& leftPaddle, Paddle& rightPaddle, Border& topBorder, Border& botBorder, Deadzone& leftDeadzone, Deadzone& rightDeadzone); // mutates HitState
         void reset();
         bool handleCollision(Paddle& paddle); // returns true if collision was detected
         bool handleCollision(Border& border);
