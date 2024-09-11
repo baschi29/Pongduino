@@ -83,8 +83,6 @@ void Display::drawPongObject(PongObject& pongObject) {
     if (126 - x < xDim) {
 
         xDim = 126 - x;
-        Serial.println(x);
-        Serial.println(xDim);
 
     }
 
