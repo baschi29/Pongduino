@@ -69,7 +69,6 @@ void Controller::tick() {
         
         _leftPaddle.setPositionFromMeasurement(_leftDistanceSensor.measure());
         _rightPaddle.setPositionFromMeasurement(_rightDistanceSensor.measure());
-        _display.drawGame(_ball, _leftPaddle, _rightPaddle);
         _ball.move();
 
         if (_ball.handleCollision(_leftPaddle) 
@@ -94,6 +93,8 @@ void Controller::tick() {
             this->pause();
 
         }
+
+        _display.drawGame(_ball, _leftPaddle, _rightPaddle);
 
     }
 
