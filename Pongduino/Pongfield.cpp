@@ -259,34 +259,29 @@ void Ball::move(HitState& hit, Paddle& leftPaddle, Paddle& rightPaddle, Border& 
 
 void Ball::reset() {
 
-    int sign1 = random(0, 2);
-
-    if (sign1 == 0) {
-
-        sign1 = -1;
-
-    }
-    else {
-
-        sign1 = 1;
-
-    }
-
-    int sign2 = random(0, 2); 
-
-    if (sign2 == 0) {
-
-        sign2 = -1;
-
-    }
-    else {
-
-        sign2 = 1;
-
-    }
-
-    this->setMovementDirection(sign1 * random(1, 5), sign2 * random(1, 5));
+    this->setMovementDirection(this->generateRandomSign() * random(1, 5), this->generateRandomSign() * random(1, 5));
     this->setCoordinates(_xStart, _yStart);
+
+}
+
+
+// generates a random sign
+int Ball::generateRandomSign() {
+
+    int sign = random(0, 2);
+
+    if (sign == 0) {
+
+        sign = -1;
+
+    }
+    else {
+
+        sign = 1;
+
+    }
+
+    return sign;
 
 }
 

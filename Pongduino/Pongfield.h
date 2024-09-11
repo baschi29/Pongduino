@@ -91,6 +91,7 @@ class Ball : public MovableObject {
         bool handleCollision(Deadzone& deadzone);
 
     private:
+        int generateRandomSign();
         float _velocity;
         int _xStart;
         int _yStart;
