@@ -40,11 +40,20 @@ void Speaker::playStopSound() {
 }
 
 
-void Speaker::playHitSound() {
+void Speaker::playBorderHitSound() {
 
     noTone(_pin);
     delay(10);
     tone(_pin, NOTE_C2, 200);
+
+}
+
+
+void Speaker::playPaddleHitSound() {
+
+    noTone(_pin);
+    delay(10);
+    tone(_pin, NOTE_G2, 200);
 
 }
 

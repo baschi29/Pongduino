@@ -9,7 +9,8 @@ class Speaker {
         Speaker(int pin);
         void playStartSound();
         void playStopSound();
-        void playHitSound();
+        void playBorderHitSound();
+        void playPaddleHitSound();
         void playReadySound();
 
     private:

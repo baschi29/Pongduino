@@ -73,12 +73,19 @@ void Controller::tick() {
         _rightPaddle.setPositionFromMeasurement(_rightDistanceSensor.measure());
         _ball.move(hit, _leftPaddle, _rightPaddle, _topBorder, _botBorder, _leftDeadzone, _rightDeadzone);
 
-        if (hit.paddle or hit.border) {
+        if (hit.border) {
 
-            _speaker.playHitSound();
+            _speaker.playBorderHitSound();
 
         }
-        else if (hit.leftDeadzone) {
+        
+        if (hit.paddle) {
+
+            _speaker.playPaddleHitSound();
+
+        }
+
+        if (hit.leftDeadzone) {
 
             _speaker.playStopSound();
             _gameState.rightScore += 1;
