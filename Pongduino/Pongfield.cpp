@@ -368,6 +368,8 @@ Paddle::Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY, int measu
     _maxY = maxY - y_dim; // rectangles start at top left
     _minY = minY;
 
+    _measurementOffset = measurementOffset;
+
     _distanceConversionFactor = - maxY / (measurementRange);
 
 }
