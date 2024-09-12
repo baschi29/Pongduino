@@ -363,9 +363,9 @@ bool Ball::handleCollision(Deadzone& deadzone) {
 }
 
 
-Paddle::Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY, int fieldYDim, int measurementRange, int measurementOffset) : MovableObject(x, y, x_dim, y_dim) {
+Paddle::Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY, int measurementRange, int measurementOffset) : MovableObject(x, y, x_dim, y_dim) {
 
-    _maxY = maxY;
+    _maxY = maxY - y_dim; // rectangles start at top left
     _minY = minY;
 
     _distanceConversionFactor = - maxY / (measurementRange);
