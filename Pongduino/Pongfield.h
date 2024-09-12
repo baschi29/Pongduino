@@ -13,8 +13,8 @@ class Deadzone;
 
 struct GameState {
 
-    unsigned short int leftScore;
-    unsigned short int rightScore;
+    unsigned short leftScore;
+    unsigned short rightScore;
     bool paused;
 
 };
