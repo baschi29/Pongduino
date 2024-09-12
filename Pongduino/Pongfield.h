@@ -59,10 +59,10 @@ class PongObject {
 };
 
 
-class MovableObject : public PongObject {
+class MoveableObject : public PongObject {
 
     public:
-        MovableObject(int x, int y, int x_dim, int y_dim);
+        MoveableObject(int x, int y, int x_dim, int y_dim);
         float getMovementDirectionX();
         float getMovementDirectionY();
         void stayStill();
@@ -70,6 +70,9 @@ class MovableObject : public PongObject {
     protected:
         void setMovementDirection(float x, float y);
         void setCoordinates(float newX, float newY);
+        float calcNewX(float movement);
+        float calcNewY(float movement);
+        float calcMovement(float end, float start, float direction);
         unsigned long getLastMovementTime();
 
     private:
@@ -80,18 +83,21 @@ class MovableObject : public PongObject {
 };
 
 
-class Ball : public MovableObject {
+class Ball : public MoveableObject {
 
     public:
         Ball(int x, int y, int x_dim, int y_dim, float velocity); //velocity should be in px/s,
         void move(HitState& hit, Paddle& leftPaddle, Paddle& rightPaddle, Border& topBorder, Border& botBorder, Deadzone& leftDeadzone, Deadzone& rightDeadzone); // mutates HitState
         void reset();
-        bool handleCollision(Paddle& paddle); // returns true if collision was detected
-        bool handleCollision(Border& border);
-        bool handleCollision(Deadzone& deadzone);
+
+    protected:
+        float handleCollisions(HitState& hit, Paddle& leftPaddle, Paddle& rightPaddle, Border& topBorder, Border& botBorder, Deadzone& leftDeadzone, Deadzone& rightDeadzone);
 
     private:
         int generateRandomSign();
+        float handleCollision(Paddle& paddle); // returns corrected distance
+        float handleCollision(Border& border);
+        bool handleCollision(Deadzone& deadzone); // returns true when hit
         float _velocity;
         int _xStart;
         int _yStart;
@@ -99,7 +105,7 @@ class Ball : public MovableObject {
 };
 
 
-class Paddle : public MovableObject {
+class Paddle : public MoveableObject {
 
     public:
         Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY, int measurementRange, int measurmentOffset);
