@@ -152,14 +152,14 @@ int PongObject::getYDim() {
 }
 
 
-MovableObject::MovableObject(int x, int y, int x_dim, int y_dim) : PongObject(x, y, x_dim, y_dim) {
+MoveableObject::MoveableObject(int x, int y, int x_dim, int y_dim) : PongObject(x, y, x_dim, y_dim) {
 
     this->setMovementDirection(0, 0);
 
 }
 
 
-void MovableObject::setCoordinates(float newX, float newY) {
+void MoveableObject::setCoordinates(float newX, float newY) {
 
     PongObject::setCoordinates(newX, newY);
     _lastMovementTime = millis();
@@ -167,7 +167,7 @@ void MovableObject::setCoordinates(float newX, float newY) {
 }
 
 
-void MovableObject::setMovementDirection(float x, float y) {
+void MoveableObject::setMovementDirection(float x, float y) {
 
     // normalize and set
     float length = sqrt(x * x + y * y);
@@ -177,35 +177,56 @@ void MovableObject::setMovementDirection(float x, float y) {
 }
 
 
-float MovableObject::getMovementDirectionX() {
+float MoveableObject::getMovementDirectionX() {
 
     return _movementDirectionX;
 
 }
 
 
-float MovableObject::getMovementDirectionY() {
+float MoveableObject::getMovementDirectionY() {
 
     return _movementDirectionY;
 
 }
 
 
-unsigned long MovableObject::getLastMovementTime() {
+unsigned long MoveableObject::getLastMovementTime() {
 
     return _lastMovementTime;
 
 }
 
 
-void MovableObject::stayStill() {
+void MoveableObject::stayStill() {
 
     this->setCoordinates(this->getX(), this->getY());
 
 }
 
 
-Ball::Ball(int x, int y, int x_dim, int y_dim, float velocity) : MovableObject(x, y, x_dim, y_dim) {
+float MoveableObject::calcNewX(float movement) {
+
+    return this->getX() + movement * this->getMovementDirectionX();
+
+}
+
+
+float MoveableObject::calcNewY(float movement) {
+
+    return this->getY() + movement * this->getMovementDirectionY();
+
+}
+
+
+float MoveableObject::calcMovement(float end, float start, float direction) {
+
+    return (end - start) / direction;
+
+}
+
+
+Ball::Ball(int x, int y, int x_dim, int y_dim, float velocity) : MoveableObject(x, y, x_dim, y_dim) {
 
     _velocity = velocity;
     _xStart = x;
@@ -221,36 +242,22 @@ void Ball::move(HitState& hit, Paddle& leftPaddle, Paddle& rightPaddle, Border& 
 
     unsigned long now = millis();
 
-    float overallMovement = _velocity * (float)(now - this->getLastMovementTime()) / 1000; //velocity in px/s, time in ms
+    float overallMovement = _velocity * (float)(now - this->getLastMovementTime()) / 1000; //velocity in px/s, time in 
+    
+    // iterate over line to move to detect (most) collisions
+    while (overallMovement > 0 
+        and not (hit.leftDeadzone or hit.rightDeadzone)) {
 
-    float newX = this->getX() + overallMovement * this->getMovementDirectionX();
-    float newY = this->getY() + overallMovement * this->getMovementDirectionY();
+        float currentMovement = min(overallMovement, 1);
 
-    this->setCoordinates(newX, newY);
+        this->setCoordinates(this->calcNewX(currentMovement), this->calcNewY(currentMovement));
 
-    // calculate and set "return" values
-    if (this->handleCollision(leftPaddle)
-        or this->handleCollision(rightPaddle)) {
+        // account for collision correction
+        float correctionDistance = this->handleCollisions(hit, leftPaddle, rightPaddle, topBorder, botBorder, leftDeadzone, rightDeadzone);
+        Serial.println(correctionDistance);
 
-        hit.paddle = true;
-
-    }
-
-    if (this->handleCollision(topBorder)
-        or this->handleCollision(botBorder)) {
-
-        hit.border = true;
-
-    }
-
-    if (this->handleCollision(leftDeadzone)) {
-
-        hit.leftDeadzone = true;
-
-    }
-    else if (this->handleCollision(rightDeadzone)) {
-
-        hit.rightDeadzone = true;
+        currentMovement -= correctionDistance;
+        overallMovement -= currentMovement;
 
     }
 
@@ -286,60 +293,104 @@ int Ball::generateRandomSign() {
 }
 
 
-bool Ball::handleCollision(Paddle& paddle) {
+// returns overall distance the ball was moved back, mutates HitState
+float Ball::handleCollisions(HitState& hit, Paddle& leftPaddle, Paddle& rightPaddle, Border& topBorder, Border& botBorder, Deadzone& leftDeadzone, Deadzone& rightDeadzone) {
+
+    // handle collisions, calculate and set "return" values
+    float paddleCorrection = this->handleCollision(leftPaddle) + this->handleCollision(rightPaddle);
+    if (paddleCorrection > 0) {
+
+        hit.paddle = true;
+
+    }
+
+    float borderCorrection = this->handleCollision(topBorder) + this->handleCollision(botBorder);
+    if (borderCorrection > 0) {
+
+        hit.border = true;
+
+    }
+
+    if (this->handleCollision(leftDeadzone)) {
+
+        hit.leftDeadzone = true;
+
+    }
+    else if (this->handleCollision(rightDeadzone)) {
+
+        hit.rightDeadzone = true;
+
+    }
+
+    return paddleCorrection + borderCorrection;
+
+}
+
+
+float Ball::handleCollision(Paddle& paddle) {
 
     if (this->isColliding(paddle)) {
 
+        float toMove;
+
         if (sgn(this->getMovementDirectionX() > 0)) { //moved to the right -> position left from paddle
 
-            this->setCoordinates(paddle.getMinOccupiedX() - this->getXDim(), this->getY());
+            toMove = this->calcMovement(paddle.getMinOccupiedX() - this->getXDim(), this->getX(), this->getMovementDirectionX());
 
         }
         else { // moved to the left -> position right from paddle
 
-            this->setCoordinates(paddle.getMaxOccupiedX() + 1, this->getY());
+            toMove = this->calcMovement(paddle.getMaxOccupiedX() + 1, this->getX(), this->getMovementDirectionX());
 
         }
+
+        // set new coordinates accordingly
+        this->setCoordinates(this->calcNewX(toMove), this->calcNewY(toMove));
 
         // set new movement direction: reflection on paddle
         this->setMovementDirection(-(this->getMovementDirectionX()), this->getMovementDirectionY());
 
-        return true;
+        return abs(toMove);
 
     }
     else {
 
-        return false;
+        return 0;
 
     }
 
 }
 
 
-bool Ball::handleCollision(Border& border) { // for now borders are always horizontal
+float Ball::handleCollision(Border& border) { // for now borders are always horizontal
 
     if (this->isColliding(border)) {
 
+        float toMove;
+
         if (sgn(this->getMovementDirectionY() > 0)) { //moved to the bottom -> position top of border
 
-            this->setCoordinates(this->getX(), border.getMinOccupiedY() - this->getYDim());
+            toMove = this->calcMovement(border.getMinOccupiedY() - this->getYDim(), this->getY(), this->getMovementDirectionY());
 
         }
         else { // moved to the top -> position bottom of border
 
-            this->setCoordinates( this->getX(), border.getMaxOccupiedY() + 1);
+            toMove = this->calcMovement(border.getMaxOccupiedY() + 1, this->getY(), this->getMovementDirectionY());
 
         }
+
+        // set new coordinates accordingly
+        this->setCoordinates(this->calcNewX(toMove), this->calcNewY(toMove));
 
         // set new movement direction: reflection on border
         this->setMovementDirection(this->getMovementDirectionX(), -(this->getMovementDirectionY()));
 
-        return true;
+        return abs(toMove);
 
     }
     else {
 
-        return false;
+        return 0;
 
     }
 
@@ -363,7 +414,7 @@ bool Ball::handleCollision(Deadzone& deadzone) {
 }
 
 
-Paddle::Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY, int measurementRange, int measurementOffset) : MovableObject(x, y, x_dim, y_dim) {
+Paddle::Paddle(int x, int y, int x_dim, int y_dim, int maxY, int minY, int measurementRange, int measurementOffset) : MoveableObject(x, y, x_dim, y_dim) {
 
     _maxY = maxY - y_dim; // rectangles start at top left
     _minY = minY;
