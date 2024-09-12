@@ -350,6 +350,9 @@ float Ball::handleCollision(Paddle& paddle) {
         // set new movement direction: reflection on paddle
         this->setMovementDirection(-(this->getMovementDirectionX()), this->getMovementDirectionY());
 
+        // get faster over time
+        _velocity += 2;
+
         return abs(toMove);
 
     }
