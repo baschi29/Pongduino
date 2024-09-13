@@ -16,6 +16,16 @@ Yet another Arduino Pong game using distance sensors as controllers. Build and p
 - [U8g2lib](https://github.com/olikraus/u8g2)
 - the file Pitches.h, originally written by Brett Hagman, to supply a note table
 
+## Wiring
+
+Below the pin layout and wiring used by the author is shown. It is possible to specify the pins in use via the Controller constructor:
+
+```
+Controller(int fieldXDim, int fieldYDim, int paddleLength, int paddleWidth, int ballSize, int speakerPin, int leftDSTriggerPin, int leftDSEchoPin, int rightDSTriggerPin, int rightDSEchoPin);
+```
+
+![Schaltung_Steckplatine](https://github.com/user-attachments/assets/c2991407-2c82-42f7-a19e-bc8822909a67)
+
 ## License
 
     This program is free software: you can redistribute it and/or modify
