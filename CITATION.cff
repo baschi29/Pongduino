@@ -1,0 +1,20 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Pongduino
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: baschi29
+repository-code: 'https://github.com/baschi29/Pongduino'
+abstract: >-
+  Yet another Arduino Pong game using distance sensors as
+  controllers. Build and programmed as part of an university
+  class in the summer semester 2024. 
+keywords:
+  - arduino
+  - arduino-sketch
+license: AGPL-3.0-or-later
