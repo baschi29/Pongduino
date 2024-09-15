@@ -88,14 +88,14 @@ void Controller::tick() {
         if (hit.leftDeadzone) {
 
             _speaker.playStopSound();
-            _gameState.rightScore += 1;
+            _gameState.rightScore = min(99, _gameState.rightScore + 1);
             this->pause();
 
         }
         else if (hit.rightDeadzone) {
 
             _speaker.playStopSound();
-            _gameState.leftScore += 1;
+            _gameState.leftScore += min(99, _gameState.leftScore + 1);
             this->pause();
 
         }
