@@ -13,10 +13,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/
 */
 
-// include for local files
-#include "Speaker.h"
-#include "Display.h"
-#include "DistanceSensor.h"
+// include for controlling game
 #include "Controller.h"
 
 // fieldXDim, fieldYDim, paddleWidth, paddleLength, ballSize, speakerPin, leftDSTriggerPin, leftDSEchoPin, rightDSTriggerPin, rightDSEchoPin
