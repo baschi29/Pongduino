@@ -60,10 +60,14 @@ float DistanceSensor::doSingleMeasurement() {
     digitalWrite(_triggerPin, HIGH);
     delayMicroseconds(10);
     digitalWrite(_triggerPin, LOW);
+    
+    // https://www.arduino.cc/reference/de/language/functions/advanced-io/pulsein/
     unsigned long duration = pulseIn(_echoPin, HIGH);
     _lastMeasurementTime = millis();
 
-    return (float)duration / 58; // #TODO wo kommt die 58 her
+    // distance = duration * speed of sound(340m/s) / 2
+    // cm -> approx. duration * 0,17 -> approx. duration/58
+    return (float)duration / 58;
 
 }
 
