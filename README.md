@@ -26,6 +26,10 @@ Controller(int fieldXDim, int fieldYDim, int paddleLength, int paddleWidth, int 
 
 ![Schaltung_Steckplatine](https://github.com/user-attachments/assets/c2991407-2c82-42f7-a19e-bc8822909a67)
 
+## Class diagram
+
+![classController__coll__graph](https://github.com/user-attachments/assets/68b7c27c-1871-41ab-8958-f2886254c901)
+
 ## License
 
     This program is free software: you can redistribute it and/or modify
