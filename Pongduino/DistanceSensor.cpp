@@ -60,7 +60,7 @@ float DistanceSensor::doSingleMeasurement() {
     digitalWrite(_triggerPin, HIGH);
     delayMicroseconds(10);
     digitalWrite(_triggerPin, LOW);
-    int duration = pulseIn(_echoPin, HIGH);
+    unsigned long duration = pulseIn(_echoPin, HIGH);
     _lastMeasurementTime = millis();
 
     return (float)duration / 58; // #TODO wo kommt die 58 her
