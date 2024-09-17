@@ -28,7 +28,7 @@ Controller(int fieldXDim, int fieldYDim, int paddleLength, int paddleWidth, int 
 
 ## Class diagram
 
-![classController__coll__graph](https://github.com/user-attachments/assets/68b7c27c-1871-41ab-8958-f2886254c901)
+![classController__coll__graph](https://github.com/user-attachments/assets/fec119a3-9014-4cd5-9638-19d3b6092d3c)
 
 ## License
 
