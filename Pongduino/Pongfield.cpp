@@ -230,6 +230,7 @@ Ball::Ball(int x, int y, int x_dim, int y_dim, float velocity) : MoveableObject(
 
     _velocity = velocity;
     _startVelocity = velocity;
+    _baseVelocity = velocity;
     _xStart = x;
     _yStart = y;
 
@@ -269,6 +270,7 @@ void Ball::reset() {
     this->setMovementDirection(this->generateRandomSign() * random(1, 5), this->generateRandomSign() * random(1, 5));
     this->setCoordinates(_xStart, _yStart);
     _velocity = _startVelocity;
+    _baseVelocity = _startVelocity;
 
 }
 
@@ -336,7 +338,7 @@ float Ball::handleCollision(Paddle& paddle) {
         // maximum angle the ball bounces when it hits the paddle at the edge in radian
         // see https://gamedev.stackexchange.com/a/4255
         float maxBounceAngle = 65 * PI / 180;
-        float maxVelocityAddition = 50;
+        float maxVelocityAddition = _baseVelocity;
 
         if (sgn(this->getMovementDirectionX() > 0)) { //moved to the right -> position left from paddle
 
@@ -360,8 +362,10 @@ float Ball::handleCollision(Paddle& paddle) {
         float bounceAngle = normalizedRelativeIntersectY * maxBounceAngle;
         this->setMovementDirection(- sgn(this->getMovementDirectionX()) * cos(bounceAngle), sin(bounceAngle));
         // adds to velocity accordingly
-        _velocity = _startVelocity + maxVelocityAddition * abs(normalizedRelativeIntersectY);
-        //this->setMovementDirection(-(this->getMovementDirectionX()), this->getMovementDirectionY());
+        _velocity = _baseVelocity + maxVelocityAddition * abs(normalizedRelativeIntersectY);
+        
+        // get faster the more paddles get hit in a round
+        _baseVelocity += 2;        
 
         return abs(toMove);
 
