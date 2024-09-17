@@ -9,7 +9,7 @@ Controller::Controller(int fieldXDim, int fieldYDim, int paddleWidth, int paddle
     _rightDeadzone(fieldXDim, 0, 3, fieldYDim - 1),
     _leftPaddle(1, (float)(fieldYDim / 2 - 1) - (paddleLength - 1) / 2, paddleWidth, paddleLength, fieldYDim - 2, 1, 25, 5),
     _rightPaddle((float)fieldXDim - 2 - paddleWidth, (float)(fieldYDim / 2 - 1) - (paddleLength - 1) / 2, paddleWidth, paddleLength, fieldYDim - 2, 1, 25, 5),
-    _ball((float)(fieldXDim / 2 - 1) - (ballSize - 1) / 2, (float)(fieldYDim / 2 - 1) - (ballSize - 1) / 2, ballSize, ballSize, 40),
+    _ball((float)(fieldXDim / 2 - 1) - (ballSize - 1) / 2, (float)(fieldYDim / 2 - 1) - (ballSize - 1) / 2, ballSize, ballSize, 50),
     _speaker(speakerPin),
     _leftDistanceSensor(leftDSTriggerPin, leftDSEchoPin),
     _rightDistanceSensor(rightDSTriggerPin, rightDSEchoPin) {
@@ -95,7 +95,7 @@ void Controller::tick() {
         else if (hit.rightDeadzone) {
 
             _speaker.playStopSound();
-            _gameState.leftScore += min(99, _gameState.leftScore + 1);
+            _gameState.leftScore = min(99, _gameState.leftScore + 1);
             this->pause();
 
         }
