@@ -99,6 +99,7 @@ class Ball : public MoveableObject {
         float handleCollision(Border& border);
         bool handleCollision(Deadzone& deadzone); // returns true when hit
         float _velocity;
+        float _startVelocity;
         int _xStart;
         int _yStart;
 

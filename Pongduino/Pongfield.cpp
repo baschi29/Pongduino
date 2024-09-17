@@ -229,6 +229,7 @@ float MoveableObject::calcMovement(float end, float start, float direction) {
 Ball::Ball(int x, int y, int x_dim, int y_dim, float velocity) : MoveableObject(x, y, x_dim, y_dim) {
 
     _velocity = velocity;
+    _startVelocity = velocity;
     _xStart = x;
     _yStart = y;
 
@@ -254,7 +255,6 @@ void Ball::move(HitState& hit, Paddle& leftPaddle, Paddle& rightPaddle, Border& 
 
         // account for collision correction
         float correctionDistance = this->handleCollisions(hit, leftPaddle, rightPaddle, topBorder, botBorder, leftDeadzone, rightDeadzone);
-        Serial.println(correctionDistance);
 
         currentMovement -= correctionDistance;
         overallMovement -= currentMovement;
@@ -268,6 +268,7 @@ void Ball::reset() {
 
     this->setMovementDirection(this->generateRandomSign() * random(1, 5), this->generateRandomSign() * random(1, 5));
     this->setCoordinates(_xStart, _yStart);
+    _velocity = _startVelocity;
 
 }
 
@@ -332,6 +333,10 @@ float Ball::handleCollision(Paddle& paddle) {
     if (this->isColliding(paddle)) {
 
         float toMove;
+        // maximum angle the ball bounces when it hits the paddle at the edge in radian
+        // see https://gamedev.stackexchange.com/a/4255
+        float maxBounceAngle = 65 * PI / 180;
+        float maxVelocityAddition = 50;
 
         if (sgn(this->getMovementDirectionX() > 0)) { //moved to the right -> position left from paddle
 
@@ -344,14 +349,19 @@ float Ball::handleCollision(Paddle& paddle) {
 
         }
 
+        // calculates relative intersection of paddle and ball and normalizes it
+        float relativeIntersectY = this->getY() + this->getYDim() / 2 - paddle.getY() - paddle.getYDim() / 2;
+        float normalizedRelativeIntersectY = relativeIntersectY / ((paddle.getYDim() + this->getYDim()) / 2);
+
         // set new coordinates accordingly
         this->setCoordinates(this->calcNewX(toMove), this->calcNewY(toMove));
-
-        // set new movement direction: reflection on paddle
-        this->setMovementDirection(-(this->getMovementDirectionX()), this->getMovementDirectionY());
-
-        // get faster over time
-        _velocity += 2;
+        
+        // set new movement direction in relation to where paddle got hit
+        float bounceAngle = normalizedRelativeIntersectY * maxBounceAngle;
+        this->setMovementDirection(- sgn(this->getMovementDirectionX()) * cos(bounceAngle), sin(bounceAngle));
+        // adds to velocity accordingly
+        _velocity = _startVelocity + maxVelocityAddition * abs(normalizedRelativeIntersectY);
+        //this->setMovementDirection(-(this->getMovementDirectionX()), this->getMovementDirectionY());
 
         return abs(toMove);
 
