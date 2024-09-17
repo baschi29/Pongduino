@@ -65,11 +65,13 @@ class MoveableObject : public PongObject {
         MoveableObject(int x, int y, int x_dim, int y_dim);
         float getMovementDirectionX();
         float getMovementDirectionY();
+        float getVelocity();
         void stayStill();
 
     protected:
         void setMovementDirection(float x, float y);
         void setCoordinates(float newX, float newY);
+        void setVelocity(float newVelocity);
         float calcNewX(float movement);
         float calcNewY(float movement);
         float calcMovement(float end, float start, float direction);
@@ -78,6 +80,7 @@ class MoveableObject : public PongObject {
     private:
         float _movementDirectionX; // gets normalized by setMovementDirection
         float _movementDirectionY;
+        float _velocity; // in px/s
         unsigned long _lastMovementTime;
 
 };
@@ -98,7 +101,6 @@ class Ball : public MoveableObject {
         float handleCollision(Paddle& paddle); // returns corrected distance
         float handleCollision(Border& border);
         bool handleCollision(Deadzone& deadzone); // returns true when hit
-        float _velocity;
         float _startVelocity;
         float _baseVelocity;
         int _xStart;

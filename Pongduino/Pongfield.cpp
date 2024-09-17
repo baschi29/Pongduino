@@ -155,6 +155,7 @@ int PongObject::getYDim() {
 MoveableObject::MoveableObject(int x, int y, int x_dim, int y_dim) : PongObject(x, y, x_dim, y_dim) {
 
     this->setMovementDirection(0, 0);
+    this->setVelocity(0);
 
 }
 
@@ -173,6 +174,20 @@ void MoveableObject::setMovementDirection(float x, float y) {
     float length = sqrt(x * x + y * y);
     _movementDirectionX = x / length;
     _movementDirectionY = y / length;
+
+}
+
+
+void MoveableObject::setVelocity(float newVelocity) {
+
+    _velocity = newVelocity;
+
+}
+
+
+float MoveableObject::getVelocity() {
+
+    return _velocity;
 
 }
 
@@ -228,7 +243,8 @@ float MoveableObject::calcMovement(float end, float start, float direction) {
 
 Ball::Ball(int x, int y, int x_dim, int y_dim, float velocity) : MoveableObject(x, y, x_dim, y_dim) {
 
-    _velocity = velocity;
+    this->setVelocity(velocity);
+
     _startVelocity = velocity;
     _baseVelocity = velocity;
     _xStart = x;
@@ -244,7 +260,7 @@ void Ball::move(HitState& hit, Paddle& leftPaddle, Paddle& rightPaddle, Border& 
 
     unsigned long now = millis();
 
-    float overallMovement = _velocity * (float)(now - this->getLastMovementTime()) / 1000; //velocity in px/s, time in 
+    float overallMovement = this->getVelocity() * (float)(now - this->getLastMovementTime()) / 1000; //velocity in px/s, time in 
     
     // iterate over line to move to detect (most) collisions
     while (overallMovement > 0 
@@ -269,7 +285,7 @@ void Ball::reset() {
 
     this->setMovementDirection(this->generateRandomSign() * random(1, 5), this->generateRandomSign() * random(1, 5));
     this->setCoordinates(_xStart, _yStart);
-    _velocity = _startVelocity;
+    this->setVelocity(_startVelocity);
     _baseVelocity = _startVelocity;
 
 }
@@ -362,7 +378,7 @@ float Ball::handleCollision(Paddle& paddle) {
         float bounceAngle = normalizedRelativeIntersectY * maxBounceAngle;
         this->setMovementDirection(- sgn(this->getMovementDirectionX()) * cos(bounceAngle), sin(bounceAngle));
         // adds to velocity accordingly
-        _velocity = _baseVelocity + maxVelocityAddition * abs(normalizedRelativeIntersectY);
+        this->setVelocity(_baseVelocity + maxVelocityAddition * abs(normalizedRelativeIntersectY));
         
         // get faster the more paddles get hit in a round
         _baseVelocity += 2;        
